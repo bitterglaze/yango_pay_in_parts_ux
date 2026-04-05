@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'YS Text';
+  src: url('/fonts/YS Text-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'YS Text';
+  src: url('/fonts/YS Text-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'YS Text';
+  src: url('/fonts/YS Text-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'YS Text';
+  src: url('/fonts/YS Text-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+:root {
+  /* Primary brand color */
+  --color-primary: #FF4930;
+  --color-primary-hover: #e6412b;
+  --color-primary-active: #cc3a26;
+
+  /* Semantic colors — from Figma Colors (gvtfryYfADrPjCKYaSqvGG) */
+  --color-secondary: #EDEFF2;
+  --color-background: #FFFFFF;
+  --color-surface: #f3f5f7;
+  --color-text-primary: rgba(0, 0, 0, 0.86);
+  --color-text-secondary: rgba(0, 0, 0, 0.5);
+  --color-border: #E5E5E5;
+  --color-error: #FF4C52;
+  --color-success: #56c776;
+
+  /* Typography — from Figma Typography (NBeHMily2P29iqMWqqfn8C) */
+  --font-family-base: 'YS Text', -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  /* Core scale */
+  --font-size-xs: 11px;       /* Caption/C3: 11px / lh 12 */
+  --font-size-sm: 13px;       /* Caption/C1: 13px / lh 16 */
+  --font-size-base: 14px;     /* Body/B3:    14px / lh 18 */
+  --font-size-lg: 16px;       /* Body/B2:    16px / lh 20 */
+  --font-size-xl: 18px;       /* Title/T1:   18px / lh 20 */
+  /* Extended scale */
+  --font-size-caption: 12px;  /* Caption/C2: 12px / lh 14 */
+  --font-size-2xl: 20px;      /* Headline/H4: 20px / lh 24 */
+  --font-size-h3: 22px;       /* Headline/H3: 22px / lh 24 */
+  --font-size-num-sm: 24px;   /* Numbers/N6: 24px / lh 26 */
+  --font-size-h2: 28px;       /* Numbers/N5: 28px / lh 30 */
+  --font-size-display: 32px;  /* Numbers/N4: 32px / lh 36 */
+  /* Weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --line-height-base: 1.4;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Border radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  /* Shadows */
+  --shadow-bottom-bar: 0 -4px 20px rgba(0, 0, 0, 0.12);
+  --shadow-float: 0 2px 40px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #111;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'YS Text', -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

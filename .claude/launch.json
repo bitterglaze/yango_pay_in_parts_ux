@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Prototype (Vite dev)",
+      "runtimeExecutable": "/usr/local/bin/node",
+      "runtimeArgs": ["node_modules/.bin/vite", "--port", "5173"],
+      "cwd": "/Users/tmprokofeva/Documents/Pay in Parts UX/prototype",
+      "port": 5173
+    }
+  ]
+}
