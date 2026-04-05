@@ -63,12 +63,9 @@ export interface NavProps {
   setCartCount: (n: number) => void
 }
 
-type TransitionDir = 'forward' | 'back'
-
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<ScreenId>('home')
   const [prevScreen, setPrevScreen] = useState<ScreenId | null>(null)
-  const [dir, setDir] = useState<TransitionDir>('forward')
   const [animating, setAnimating] = useState(false)
   const [selectedProductId, setSelectedProductId] = useState<number>(1)
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('')
@@ -98,11 +95,10 @@ export default function App() {
     return () => window.removeEventListener('popstate', onPop)
   }, [])
 
-  const navigate = (screen: ScreenId, direction: TransitionDir) => {
+  const navigate = (screen: ScreenId) => {
     if (animating) return
     setAnimating(true)
     setPrevScreen(currentScreen)
-    setDir(direction)
     setCurrentScreen(screen)
     setTimeout(() => {
       setPrevScreen(null)
@@ -113,7 +109,7 @@ export default function App() {
   const goTo = (screen: ScreenId) => {
     history.current.push(screen)
     window.history.pushState({ screen }, '', `#${screen}`)
-    navigate(screen, 'forward')
+    navigate(screen)
   }
 
   const goBack = () => {

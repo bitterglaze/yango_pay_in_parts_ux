@@ -1,6 +1,6 @@
 import type { NavProps } from '../App'
 import { SplitBadge, TEXT_PRIMARY, TEXT_SECONDARY, YANGO_RED, FILL_DEFAULT } from './shared'
-import { BACKGROUND, BORDER_DEFAULT, TEXT_INVERTED, RADIUS_SM, RADIUS_LG, RADIUS_XL, FONT_SIZE_BASE, FONT_SIZE_CAPTION, FONT_SIZE_SM, FONT_SIZE_XL } from './yango-tokens'
+import { BACKGROUND, BORDER_DEFAULT, TEXT_INVERTED, RADIUS_LG, FONT_SIZE_BASE, FONT_SIZE_CAPTION, FONT_SIZE_SM, FONT_SIZE_XL } from './yango-tokens'
 import { MERCHANT_AVATAR_BG, MERCHANT_AVATAR_TEXT } from './merchant-shared'
 
 const NISHAT_BRAND = '#c8922a'  // Nishat merchant brand color
@@ -10,7 +10,6 @@ const photo1 = 'http://localhost:3845/assets/d4bc1679c0f7c67dd67e6fc861c5cee3a4d
 const photo2 = 'http://localhost:3845/assets/c1a592024346454fd7b15d04ffa75ed8c10231ba.png'
 const photo3 = 'http://localhost:3845/assets/45aa66b83e6473220b7ef5574fb082975b004b12.png'
 const photo4 = 'http://localhost:3845/assets/ed3b7f3411a77303a726fae81443dd124e2e20ce.png'
-const nishLogo = 'http://localhost:3845/assets/25379339b0058297ecb01043dbccfe54be0a49e2.svg'
 
 export default function StoreScreen({ goTo }: NavProps) {
   const products = [
@@ -86,7 +85,7 @@ export default function StoreScreen({ goTo }: NavProps) {
           {products.map((p) => (
             <div
               key={p.id}
-              onClick={() => goTo('product')}
+              onClick={() => goTo('pdp')}
               style={{ cursor: 'pointer', borderRadius: RADIUS_LG, overflow: 'hidden', background: FILL_DEFAULT }}
             >
               <div style={{ aspectRatio: '3/4', overflow: 'hidden' }}>

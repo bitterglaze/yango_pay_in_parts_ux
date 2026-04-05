@@ -1,5 +1,5 @@
 import type { NavProps } from '../App'
-import { OutfittersLogo, PRODUCTS, formatPrice, OUT_BLACK, OUT_WHITE, OUT_BORDER, OUT_GRAY, OUT_BG, LINK_BLUE, WARNING_BG, WARNING_BORDER, WARNING_TEXT, MERCHANT_AVATAR_BG, MERCHANT_AVATAR_TEXT } from './merchant-shared'
+import { OutfittersLogo, PRODUCTS, formatPrice, OUT_BLACK, OUT_WHITE, OUT_BORDER, OUT_GRAY, OUT_BG, LINK_BLUE, WARNING_BG, WARNING_BORDER, WARNING_TEXT } from './merchant-shared'
 import { YANGO_RED, TEXT_INVERTED } from './yango-tokens'
 import { GREEN } from './shared'
 
@@ -17,7 +17,7 @@ export default function MerchantScreen({ goTo }: NavProps) {
         paddingTop: 48,
         flexShrink: 0,
       }}>
-        <OutfittersLogo size={18} />
+        <OutfittersLogo width={108} />
       </div>
 
       {/* Scrollable */}

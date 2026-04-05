@@ -6,7 +6,6 @@ import { PRODUCTS } from './merchant-shared'
 // Figma 44:20155 — Screen / Split Auth
 // Assets from get_design_context
 const ASSET_SPLIT_ICON = 'https://www.figma.com/api/mcp/asset/0550ae03-60b6-4212-b235-d795cd961e7d'
-const ASSET_RECT_MASK = 'https://www.figma.com/api/mcp/asset/d44285ac-8cdf-42e7-8aa0-ed5118ee266e'
 
 const NUM_VARIANT: React.CSSProperties = { fontVariantNumeric: 'lining-nums proportional-nums' }
 

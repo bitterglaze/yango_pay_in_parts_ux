@@ -1,6 +1,6 @@
 import type { NavProps } from '../App'
 import { YangoHeader, SafeAreaBottom, TEXT_PRIMARY, TEXT_SECONDARY, FILL_DEFAULT, YANGO_RED } from './shared'
-import { BACKGROUND, OTHER_BORDER, TEXT_INVERTED, RADIUS_LG, RADIUS_XL, GREEN_100, SHADOW_MEDIUM, FONT_SIZE_BASE, FONT_SIZE_SM, FONT_SIZE_XL } from './yango-tokens'
+import { BACKGROUND, OTHER_BORDER, TEXT_INVERTED, RADIUS_LG, RADIUS_XL, GREEN_100, SHADOW_MEDIUM, FONT_SIZE_BASE, FONT_SIZE_XL } from './yango-tokens'
 
 // Local public assets (work in all environments)
 const ASSET_SPLIT_ICON = '/checkout/Watermelon.png'

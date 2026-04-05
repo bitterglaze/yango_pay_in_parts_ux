@@ -6,16 +6,11 @@ import { BaadmayWidget, YangoWidget } from './bnpl-widgets'
 
 export default function CartScreen({ goTo, goBack, goToProduct, selectedProductId, cartCount, setCartCount }: NavProps) {
   const [showModal, setShowModal] = useState(false)
-  const [qty, setQtyState] = useState(cartCount > 0 ? cartCount : 1)
+  const qty = cartCount > 0 ? cartCount : 1
   const [removed, setRemoved] = useState(false)
 
   const item = PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0]
   const totalPrice = item.price * qty
-
-  const updateQty = (next: number) => {
-    if (next <= 0) { setCartCount(0); setRemoved(true) }
-    else { setQtyState(next); setCartCount(next) }
-  }
 
   // #33 — 7 products for "You may also like"
   const recommendations = PRODUCTS.filter(p => p.id !== item.id).slice(0, 7)

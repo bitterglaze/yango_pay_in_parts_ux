@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { NavProps } from '../App'
-import { TEXT_PRIMARY, TEXT_SECONDARY, YANGO_RED } from './shared'
-import { BACKGROUND, SECONDARY_BG, OTHER_BORDER, TEXT_INVERTED, RADIUS_LG, FONT_SIZE_BASE, FONT_SIZE_LG, FONT_SIZE_XL } from './yango-tokens'
+import { TEXT_PRIMARY, YANGO_RED } from './shared'
+import { BACKGROUND, SECONDARY_BG, TEXT_INVERTED, RADIUS_LG, FONT_SIZE_BASE, FONT_SIZE_LG, FONT_SIZE_XL } from './yango-tokens'
 
 // Local public assets — work in all environments including GitHub Pages
 const ASSET_SPLIT_ICON = '/checkout/Watermelon.png'

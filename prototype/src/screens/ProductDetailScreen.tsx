@@ -1,6 +1,6 @@
 import type { NavProps } from '../App'
 import { SplitBadge, TEXT_PRIMARY, TEXT_SECONDARY, YANGO_RED, FILL_DEFAULT } from './shared'
-import { BACKGROUND, BORDER_DEFAULT, TEXT_INVERTED, RADIUS_MD, RADIUS_LG, FONT_SIZE_SM, FONT_SIZE_BASE, FONT_SIZE_LG, FONT_SIZE_XL, FONT_SIZE_H3 } from './yango-tokens'
+import { BACKGROUND, BORDER_DEFAULT, TEXT_INVERTED, FONT_SIZE_SM, FONT_SIZE_BASE, FONT_SIZE_LG, FONT_SIZE_XL, FONT_SIZE_H3 } from './yango-tokens'
 
 const photo1 = 'http://localhost:3845/assets/45aa66b83e6473220b7ef5574fb082975b004b12.png'
 const photo2 = 'http://localhost:3845/assets/c1a592024346454fd7b15d04ffa75ed8c10231ba.png'

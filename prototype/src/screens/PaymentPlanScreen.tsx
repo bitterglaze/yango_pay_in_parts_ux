@@ -3,7 +3,7 @@ import type { NavProps } from '../App'
 import { YangoHeader, SafeAreaBottom, TEXT_PRIMARY, TEXT_SECONDARY, FILL_DEFAULT, GREEN, YANGO_RED } from './shared'
 import { PRODUCTS } from './merchant-shared'
 import {
-  BACKGROUND, TEXT_INVERTED, SECONDARY_BG,
+  BACKGROUND, TEXT_INVERTED,
   RADIUS_LG, RADIUS_XL,
   GREEN_100, OTHER_BORDER, SHADOW_MEDIUM,
   FONT_FAMILY,
@@ -18,22 +18,13 @@ const ASSET_RECT_MASK  = 'https://www.figma.com/api/mcp/asset/d44285ac-8cdf-42e7
 const ASSET_METHOD_JAZZCASH  = '/checkout/Method-JazzCash.png'
 const ASSET_METHOD_EASYPAISA = '/checkout/Method-Easypaisa.png'
 
-// Inline SVG chevron right
-function ChevronRight() {
-  return (
-    <svg width="8" height="13" viewBox="0 0 16 16" fill="none">
-      <path d="M5.52876 3.8047C5.26841 3.54435 5.26841 3.12224 5.52876 2.86189C5.78911 2.60154 6.21122 2.60154 6.47157 2.86189L10.9025 7.29285C11.2931 7.68338 11.2931 8.31654 10.9025 8.70707L6.47157 13.138C6.21122 13.3984 5.78911 13.3984 5.52876 13.138C5.26841 12.8777 5.26841 12.4556 5.52876 12.1952L9.72402 7.99996L5.52876 3.8047Z" fill="black" fillOpacity="0.3"/>
-    </svg>
-  )
-}
-
 function fmtRs(n: number): string {
   return `Rs.${n.toLocaleString('en-PK')}`
 }
 
 const NUM_VARIANT: React.CSSProperties = { fontVariantNumeric: 'lining-nums proportional-nums' }
 
-export default function PaymentPlanScreen({ goTo, goBack, selectedProductId, selectedPaymentMethod, setPaymentMethod, ...rest }: NavProps) {
+export default function PaymentPlanScreen({ goTo, goBack, selectedProductId, selectedPaymentMethod, setPaymentMethod }: NavProps) {
   const product = PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0]
   const DELIVERY_FEE = 500
   const CART_TOTAL = product.price + DELIVERY_FEE
@@ -281,6 +272,7 @@ export default function PaymentPlanScreen({ goTo, goBack, selectedProductId, sel
             currentScreen={'select-payment' as any}
             selectedProductId={0}
             goToProduct={() => {}}
+            addToCart={() => {}}
             selectedPaymentMethod={selectedPaymentMethod}
             setPaymentMethod={setPaymentMethod}
             cartCount={0}

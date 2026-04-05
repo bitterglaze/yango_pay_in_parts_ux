@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react'
 import type { NavProps } from '../App'
-import { OutfittersHeader, PRODUCTS, formatPrice, bnplYango, bnplBaadmay, OUT_BLACK, OUT_WHITE, OUT_BORDER, OUT_GRAY, OUT_BG, OUT_FONT } from './merchant-shared'
-import { YANGO_RED } from './shared'
+import { OutfittersHeader, PRODUCTS, formatPrice, OUT_BLACK, OUT_WHITE, OUT_BORDER, OUT_GRAY, OUT_BG, OUT_FONT } from './merchant-shared'
 import { BuyNowModal } from './BuyNowModal'
 import { BaadmayWidget, YangoWidget } from './bnpl-widgets'
 

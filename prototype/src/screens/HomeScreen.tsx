@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import type { NavProps } from '../App'
-import { OutfittersHeader, CategoryTabs, PRODUCTS, formatPrice, bnplYango, bnplBaadmay, OUT_BLACK, OUT_WHITE, OUT_BORDER, OUT_GRAY, OUT_BG, OUT_FONT } from './merchant-shared'
+import { OutfittersHeader, CategoryTabs, PRODUCTS, formatPrice, bnplYango, bnplBaadmay, OUT_BLACK, OUT_WHITE, OUT_BORDER, OUT_BG, OUT_FONT } from './merchant-shared'
 
 // Per-tab hero images (3 per tab for auto-slider) + category strip
 type Tab = 'MEN' | 'WOMEN' | 'JUNIORS'
@@ -61,7 +61,7 @@ export default function HomeScreen({ goTo, goToProduct, addToCart, cartCount }: 
 
   // #8 — Hero auto-slider
   const [heroIdx, setHeroIdx] = useState(0)
-  const timerRef = useRef<ReturnType<typeof setInterval>>()
+  const timerRef = useRef<ReturnType<typeof setInterval>>(undefined)
 
   const { heroes, categories } = TAB_CONTENT[activeTab]
 

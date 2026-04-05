@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import type { NavProps } from '../App'
-import { YangoHeader, SafeAreaBottom, TEXT_PRIMARY, TEXT_SECONDARY, YANGO_RED } from './shared'
-import { BACKGROUND, SURFACE_SECONDARY, BORDER_DEFAULT, DARK_TEXT, RADIUS_SM, RADIUS_LG, FONT_SIZE_XS, FONT_SIZE_LG, FONT_SIZE_2XL, FONT_SIZE_NUM_SM, FONT_SIZE_DISPLAY } from './yango-tokens'
+import { YangoHeader, SafeAreaBottom, TEXT_PRIMARY, TEXT_SECONDARY } from './shared'
+import { BACKGROUND, SURFACE_SECONDARY, DARK_TEXT, RADIUS_SM, RADIUS_LG, FONT_SIZE_XS, FONT_SIZE_LG, FONT_SIZE_2XL, FONT_SIZE_NUM_SM, FONT_SIZE_DISPLAY } from './yango-tokens'
 
 interface OTPScreenProps extends NavProps {
   filled: boolean
@@ -11,7 +11,7 @@ const CODE = ['4', '7', '1', '9', '1', '0']
 
 export default function OTPScreen({ goTo, goBack, filled }: OTPScreenProps) {
   const [digits, setDigits] = useState<string[]>(filled ? CODE : [])
-  const [loading, setLoading] = useState(filled)
+  const [loading] = useState(filled)
 
   // Auto-advance when filled
   useEffect(() => {

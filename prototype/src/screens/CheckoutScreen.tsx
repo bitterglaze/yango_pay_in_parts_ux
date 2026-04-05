@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { NavProps } from '../App'
-import { OutfittersLogo, PRODUCTS, formatPrice, bnplYango, bnplBaadmay, OUT_BLACK, OUT_WHITE, OUT_BORDER, OUT_GRAY, OUT_BG, OUT_FONT } from './merchant-shared'
+import { OutfittersLogo, PRODUCTS, bnplYango, OUT_BLACK, OUT_WHITE, OUT_BORDER, OUT_GRAY, OUT_BG, OUT_FONT } from './merchant-shared'
 
 type PayMethod = 'cod' | 'card' | 'baadmay' | 'yango'
 type ShipMethod = 'flat' | 'free'
