@@ -284,7 +284,7 @@ export default function OrderPaidScreen({ goTo, selectedProductId, selectedPayme
         background: BACKGROUND,
         borderRadius: '24px 24px 0 0',
         boxShadow: SHADOW_MEDIUM,
-        paddingTop: 12, paddingBottom: 32, paddingLeft: 20, paddingRight: 20,
+        paddingTop: 12, paddingBottom: 24, paddingLeft: 20, paddingRight: 20,
         display: 'flex', flexDirection: 'column', gap: 8,
         flexShrink: 0,
       }}>

@@ -119,7 +119,7 @@ export function SafeAreaBottom({ children }: { children?: React.ReactNode }) {
   return (
     <div style={{
       background: '#fff',
-      paddingBottom: 34,
+      paddingBottom: 24,
       flexShrink: 0,
     }}>
       {children}
