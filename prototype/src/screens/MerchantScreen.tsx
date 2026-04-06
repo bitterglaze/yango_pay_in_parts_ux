@@ -1,11 +1,27 @@
+import { useState } from 'react'
 import type { NavProps } from '../App'
-import { OutfittersLogo, PRODUCTS, formatPrice, OUT_BLACK, OUT_WHITE, OUT_BORDER, OUT_GRAY, OUT_BG, LINK_BLUE, WARNING_BG, WARNING_BORDER, WARNING_TEXT } from './merchant-shared'
-import { YANGO_RED, TEXT_INVERTED } from './yango-tokens'
+import { OutfittersLogo, PRODUCTS, formatPrice, OUT_BLACK, OUT_WHITE, OUT_BORDER, OUT_GRAY, OUT_BG, LINK_BLUE } from './merchant-shared'
 import { GREEN } from './shared'
 
-const item = PRODUCTS[0]
+export default function MerchantScreen({ goTo, selectedProductId, checkoutData }: NavProps) {
+  const item = PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0]
+  const [orderSummaryOpen, setOrderSummaryOpen] = useState(false)
 
-export default function MerchantScreen({ goTo }: NavProps) {
+  const totalFormatted = `Rs ${item.price.toLocaleString('en-PK')}.00`
+  const today = new Date()
+  const paymentDate = today.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+
+  const cd = checkoutData
+  const fullName = [cd.firstName, cd.lastName].filter(Boolean).join(' ') || 'Ahmed Khan'
+  const addressLines = [
+    fullName,
+    cd.address || 'House 12, Street 5, DHA Phase 6',
+    cd.apartment,
+    `Lahore ${cd.postalCode || '54000'}`,
+    'Pakistan',
+    cd.phone || '+92 300 1234567',
+  ].filter(Boolean)
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: OUT_WHITE, overflow: 'hidden' }}>
 
@@ -21,160 +37,179 @@ export default function MerchantScreen({ goTo }: NavProps) {
       </div>
 
       {/* Scrollable */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '20px 16px 32px' }}>
+      <div style={{ flex: 1, overflowY: 'auto', padding: '0 0 32px' }}>
 
-        {/* Order summary link */}
-        <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          marginBottom: 20, fontSize: 13, color: LINK_BLUE,
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4, cursor: 'pointer' }}>
+        {/* Order summary toggle row */}
+        <div
+          onClick={() => setOrderSummaryOpen(o => !o)}
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            padding: '14px 16px',
+            borderBottom: `1px solid ${OUT_BORDER}`,
+            cursor: 'pointer',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 14, color: LINK_BLUE }}>
             <span>Order summary</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{
+              transform: orderSummaryOpen ? 'rotate(270deg)' : 'rotate(90deg)',
+              transition: 'transform 200ms ease',
+            }}>
               <path d="M9 18L15 12L9 6" stroke={LINK_BLUE} strokeWidth="1.8" strokeLinecap="round"/>
             </svg>
           </div>
-          <span style={{ fontWeight: 600, color: OUT_BLACK }}>{formatPrice(item.price)}</span>
+          <span style={{ fontSize: 18, fontWeight: 600, color: OUT_BLACK }}>{totalFormatted}</span>
         </div>
 
-        {/* Order number + date */}
-        <div style={{ marginBottom: 4 }}>
-          <h2 style={{ margin: '0 0 4px', fontSize: 22, fontWeight: 700, color: OUT_BLACK }}>
-            Order #OUT-2438856
-          </h2>
-          <p style={{ margin: 0, fontSize: 13, color: OUT_GRAY }}>Confirmed 20 Mar</p>
-        </div>
-
-        {/* Buy again */}
-        <button style={{
-          display: 'block', width: '100%', height: 40,
-          border: `1px solid ${OUT_BORDER}`, borderRadius: 4,
-          background: OUT_WHITE, color: LINK_BLUE,
-          fontSize: 13, fontWeight: 500, cursor: 'pointer',
-          marginTop: 16, marginBottom: 16,
-        }}>
-          Buy again
-        </button>
-
-        {/* Pending BNPL payment notice */}
-        <div style={{
-          background: WARNING_BG,
-          border: `1px solid ${WARNING_BORDER}`,
-          borderRadius: 6,
-          padding: '12px 14px',
-          marginBottom: 16,
-          fontSize: 13,
-          color: WARNING_TEXT,
-          lineHeight: 1.5,
-        }}>
-          <strong>{formatPrice(item.price)} PKR</strong>
-          <br />
-          This order has a pending BNPL payment via Yango. The balance will be updated when payment is received.
-        </div>
-
-        {/* Status */}
-        <div style={{
-          border: `1px solid ${OUT_BORDER}`, borderRadius: 6,
-          padding: '14px 14px', marginBottom: 10,
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <circle cx="8" cy="8" r="7.5" stroke={GREEN} strokeWidth="1"/>
-              <path d="M4.5 8L7 10.5L11.5 5.5" stroke={GREEN} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <div>
-              <div style={{ fontSize: 13, fontWeight: 600, color: GREEN }}>Confirmed</div>
-              <div style={{ fontSize: 12, color: OUT_GRAY }}>20 Mar</div>
+        {orderSummaryOpen && (
+          <div style={{ padding: '12px 16px', borderBottom: `1px solid ${OUT_BORDER}` }}>
+            <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+              <div style={{ width: 54, height: 72, overflow: 'hidden', background: OUT_BG, flexShrink: 0 }}>
+                <img src={item.img} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: OUT_BLACK }}>{item.name}</div>
+                <div style={{ fontSize: 11, color: OUT_GRAY }}>Black · M · ×1</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: OUT_BLACK, marginTop: 4 }}>{formatPrice(item.price)}</div>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
-        {/* Contact information */}
-        <InfoCard title="Contact information">
-          <div style={{ fontSize: 13, color: OUT_BLACK }}>aniutabry1@gmail.com</div>
-        </InfoCard>
+        <div style={{ padding: '20px 16px 0' }}>
 
-        {/* Shipping address */}
-        <InfoCard title="Shipping address">
-          <div style={{ fontSize: 13, color: OUT_BLACK, lineHeight: 1.6 }}>
-            kjmkj test<br />
-            skj, ojsifo<br />
-            ISLAMABAD 96799<br />
-            Pakistan
+          {/* Order number + date */}
+          <div style={{ marginBottom: 4 }}>
+            <h2 style={{ margin: '0 0 4px', fontSize: 22, fontWeight: 700, color: OUT_BLACK }}>
+              Order #OUT-2438856
+            </h2>
+            <p style={{ margin: 0, fontSize: 14, color: OUT_GRAY }}>Confirmed {paymentDate}</p>
           </div>
-        </InfoCard>
 
-        {/* Payment method */}
-        <InfoCard title="Payment method">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: OUT_BLACK }}>
-            <div style={{
-              width: 32, height: 22, borderRadius: 4,
-              background: YANGO_RED, display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}>
-              <span style={{ fontSize: 7, fontWeight: 900, color: TEXT_INVERTED, fontStyle: 'italic' }}>YANGO</span>
+          {/* Buy again */}
+          <button style={{
+            display: 'block', width: '100%', height: 44,
+            border: `1px solid ${OUT_BORDER}`, borderRadius: 6,
+            background: OUT_WHITE, color: LINK_BLUE,
+            fontSize: 14, fontWeight: 500, cursor: 'pointer',
+            marginTop: 20, marginBottom: 20,
+          }}>
+            Buy again
+          </button>
+
+          {/* Pending payment notice */}
+          <Card>
+            <div style={{ padding: '14px 16px' }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: OUT_BLACK, marginBottom: 6 }}>
+                {totalFormatted} PKR
+              </div>
+              <div style={{ fontSize: 14, color: OUT_GRAY, lineHeight: 1.5 }}>
+                This order has a pending payment. The balance will be updated when payment is received.
+              </div>
             </div>
-            Yango Pay in Parts
-          </div>
-          <div style={{ fontSize: 12, color: OUT_GRAY, marginTop: 4 }}>
-            1st installment: {formatPrice(Math.round(item.price / 4))} today
-          </div>
-        </InfoCard>
+          </Card>
 
-        {/* Billing address */}
-        <InfoCard title="Billing address">
-          <div style={{ fontSize: 13, color: OUT_BLACK }}>Same as shipping address</div>
-        </InfoCard>
+          <Spacer />
 
-        {/* Order item */}
-        <InfoCard title="Items in order">
-          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-            <div style={{ width: 54, height: 72, overflow: 'hidden', background: OUT_BG, flexShrink: 0 }}>
-              <img src={item.img} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          {/* Confirmed status */}
+          <Card>
+            <div style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M5 10L8.5 13.5L15 6.5" stroke={GREEN} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: OUT_BLACK }}>Confirmed</div>
+                <div style={{ fontSize: 13, color: OUT_GRAY }}>{paymentDate}</div>
+              </div>
             </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: OUT_BLACK }}>{item.name}</div>
-              <div style={{ fontSize: 11, color: OUT_GRAY }}>Black · M · ×1</div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: OUT_BLACK, marginTop: 4 }}>{formatPrice(item.price)}</div>
+          </Card>
+
+          <Spacer />
+
+          {/* All info in one card */}
+          <Card>
+            <div style={{ padding: '16px 16px 20px' }}>
+              <SectionBlock title="Contact information">
+                <p style={infoText}>{cd.email || 'user@example.com'}</p>
+              </SectionBlock>
+
+              <SectionBlock title="Shipping address">
+                <p style={infoText}>
+                  {addressLines.map((line, i) => (
+                    <span key={i}>{line}{i < addressLines.length - 1 && <br />}</span>
+                  ))}
+                </p>
+              </SectionBlock>
+
+              <SectionBlock title="Shipping method">
+                <p style={infoText}>{cd.shippingMethod === 'fast' ? 'Fast' : 'Standard'}</p>
+              </SectionBlock>
+
+              <SectionBlock title="Payment">
+                <p style={infoText}>
+                  Yango Pay in Parts<br />
+                  <span style={{ color: OUT_GRAY }}>{totalFormatted} PKR</span><br />
+                  <span style={{ color: OUT_GRAY }}>{paymentDate}</span>
+                </p>
+              </SectionBlock>
+
+              <SectionBlock title="Billing address" last>
+                <p style={infoText}>
+                  {addressLines.map((line, i) => (
+                    <span key={i}>{line}{i < addressLines.length - 1 && <br />}</span>
+                  ))}
+                </p>
+              </SectionBlock>
             </div>
-          </div>
-        </InfoCard>
+          </Card>
 
-        {/* Back to store */}
-        <div style={{ textAlign: 'center', marginTop: 8 }}>
-          <span
-            onClick={() => goTo('home')}
-            style={{ fontSize: 13, color: LINK_BLUE, cursor: 'pointer', textDecoration: 'underline' }}
-          >
-            ← Continue shopping
-          </span>
-        </div>
-
-        {/* Footer links */}
-        <div style={{
-          display: 'flex', justifyContent: 'center', gap: 16, marginTop: 24,
-          flexWrap: 'wrap',
-        }}>
-          {['Refund policy', 'Shipping policy', 'Privacy policy', 'Terms of service'].map(link => (
-            <span key={link} style={{ fontSize: 11, color: OUT_GRAY, cursor: 'pointer', textDecoration: 'underline' }}>
-              {link}
+          {/* Continue shopping */}
+          <div style={{ textAlign: 'center', marginTop: 16 }}>
+            <span
+              onClick={() => goTo('home')}
+              style={{ fontSize: 13, color: LINK_BLUE, cursor: 'pointer', textDecoration: 'underline' }}
+            >
+              ← Continue shopping
             </span>
-          ))}
-        </div>
+          </div>
 
+          {/* Footer links */}
+          <div style={{
+            display: 'flex', justifyContent: 'center', gap: 16, marginTop: 24,
+            flexWrap: 'wrap',
+          }}>
+            {['Refund policy', 'Shipping', 'Privacy policy', 'Terms of service'].map(link => (
+              <span key={link} style={{ fontSize: 12, color: LINK_BLUE, cursor: 'pointer', textDecoration: 'underline' }}>
+                {link}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   )
 }
 
-function InfoCard({ title, children }: { title: string; children: React.ReactNode }) {
+const infoText: React.CSSProperties = {
+  margin: 0, fontSize: 14, color: '#000', lineHeight: 1.6,
+}
+
+function Card({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{
-      border: `1px solid ${OUT_BORDER}`, borderRadius: 6,
-      padding: '12px 14px', marginBottom: 10,
-    }}>
-      <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', color: OUT_GRAY, marginBottom: 6 }}>
-        {title.toUpperCase()}
-      </div>
+    <div style={{ border: `1px solid #e0e0e0`, borderRadius: 10, overflow: 'hidden' }}>
+      {children}
+    </div>
+  )
+}
+
+function Spacer() {
+  return <div style={{ height: 20 }} />
+}
+
+function SectionBlock({ title, children, last }: { title: string; children: React.ReactNode; last?: boolean }) {
+  return (
+    <div style={{ marginBottom: last ? 0 : 20 }}>
+      <div style={{ fontSize: 14, fontWeight: 700, color: '#000', marginBottom: 4 }}>{title}</div>
       {children}
     </div>
   )

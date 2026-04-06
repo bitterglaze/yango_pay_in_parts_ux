@@ -80,7 +80,8 @@
       "Bash(ls \"/Users/tmprokofeva/Desktop/PnP proto/Pre-offer/24 • Navigation & Arrows/\")",
       "Bash(find \"/Users/tmprokofeva/Desktop/PnP proto/Pre-offer/24\"* -type f)",
       "Bash(cat \"/Users/tmprokofeva/Desktop/PnP proto/Pre-offer/24 • Navigation & Arrows/Arrow Short Forward.svg\")",
-      "Bash(find '/Users/tmprokofeva/Desktop/PnP proto' -name *orward* -type f)"
+      "Bash(find '/Users/tmprokofeva/Desktop/PnP proto' -name *orward* -type f)",
+      "Bash(export PATH=\"/usr/local/bin:/opt/homebrew/bin:$HOME/.nvm/versions/node/*/bin:$PATH\")"
     ]
   }
 }

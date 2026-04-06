@@ -277,6 +277,17 @@ export default function PaymentPlanScreen({ goTo, goBack, selectedProductId, sel
             setPaymentMethod={setPaymentMethod}
             cartCount={0}
             setCartCount={() => {}}
+            checkoutData={{
+              email: '',
+              firstName: '',
+              lastName: '',
+              address: '',
+              apartment: '',
+              postalCode: '',
+              phone: '',
+              shippingMethod: 'standard',
+            }}
+            setCheckoutData={() => {}}
             onCloseModal={() => setShowModal(false)}
             onConfirmModal={(method) => {
               setPaymentMethod(method)

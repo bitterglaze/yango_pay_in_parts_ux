@@ -177,18 +177,18 @@ export default function HomeScreen({ goTo, goToProduct, addToCart, cartCount }: 
                   <img src={p.img} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                   {/* Add to cart — rounded rect, light gray bg, thin plus — matches Outfitters */}
                   <div onClick={(e) => { e.stopPropagation(); addToCart(p.id) }} style={{
-                    position: 'absolute', bottom: 6, right: 6, width: 36, height: 26,
-                    background: 'rgba(220,220,220,0.7)', borderRadius: 6,
+                    position: 'absolute', bottom: 6, right: 6, width: 28, height: 28,
+                    background: 'rgba(220,220,220,0.75)', borderRadius: 0,
                     display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
                   }}>
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path d="M7 3V11M3 7H11" stroke="#555" strokeWidth="1.2" strokeLinecap="round"/>
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                      <path d="M9 3V15M3 9H15" stroke={OUT_BLACK} strokeWidth="1"/>
                     </svg>
                   </div>
                 </div>
                 <div style={{ padding: '6px 4px 10px', fontFamily: OUT_FONT }}>
                   {/* Name: 11px, #000, normal weight — matches Outfitters site */}
-                  <div style={{ fontSize: 11, fontWeight: 400, color: '#000000', lineHeight: 1.3, marginBottom: 0 }}>{p.name}</div>
+                  <div style={{ fontSize: 11, fontWeight: 500, color: '#000000', lineHeight: 1.3, marginBottom: 0 }}>{p.name}</div>
                   {/* Fit: 8px, #202020, margin-top 3px */}
                   <div style={{ fontSize: 8, color: '#202020', letterSpacing: '0.03em', marginTop: 3, marginBottom: 3 }}>{p.fit}</div>
                   {/* Price: 11px, bold, #121212 */}
@@ -202,21 +202,25 @@ export default function HomeScreen({ goTo, goToProduct, addToCart, cartCount }: 
                           {bnplBaadmay(p.price)}
                         </span>
                       </div>
-                      <span style={{ fontSize: 10, fontWeight: 600, color: 'rgba(0,0,0,0.86)', paddingLeft: 4, lineHeight: '10px', whiteSpace: 'nowrap' }}>
+                      <span style={{ fontSize: 10, fontWeight: 400, color: 'rgba(0,0,0,0.86)', paddingLeft: 4, lineHeight: '10px', whiteSpace: 'nowrap' }}>
                         with Baadmay
                       </span>
                     </div>
-                    {/* Yango: watermelon + red pill with price + "with Yango" */}
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <div style={{ width: 14, height: 18, overflow: 'hidden', flexShrink: 0, display: 'flex', alignItems: 'center' }}>
-                        <img src="/checkout/PacmanIcon.png" alt="" style={{ width: 18, height: 18, display: 'block', marginLeft: -2 }} />
-                      </div>
-                      <div style={{ background: 'red', borderRadius: '0 3px 3px 0', padding: '4px 4px 4px 2px', display: 'flex', alignItems: 'center' }}>
-                        <span style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.98)', lineHeight: '10px', whiteSpace: 'nowrap', fontVariantNumeric: 'lining-nums proportional-nums' }}>
+                    {/* Yango: pill badge with pacman + price */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <div style={{
+                        display: 'flex', alignItems: 'center', height: 18,
+                        background: '#FF0000',
+                        borderRadius: '9px 3px 3px 9px',
+                        overflow: 'hidden',
+                        paddingLeft: 2,
+                      }}>
+                        <img src="/checkout/PacmanIcon.png" alt="" style={{ width: 14, height: 14, display: 'block', flexShrink: 0 }} />
+                        <span style={{ fontSize: 10, fontWeight: 700, color: '#fff', lineHeight: '10px', whiteSpace: 'nowrap', padding: '0 4px 0 2px', fontVariantNumeric: 'lining-nums proportional-nums' }}>
                           {bnplYango(p.price)}
                         </span>
                       </div>
-                      <span style={{ fontSize: 10, fontWeight: 600, color: 'rgba(0,0,0,0.86)', paddingLeft: 4, lineHeight: '10px', whiteSpace: 'nowrap' }}>
+                      <span style={{ fontSize: 10, fontWeight: 400, color: 'rgba(0,0,0,0.86)', lineHeight: '10px', whiteSpace: 'nowrap' }}>
                         with Yango
                       </span>
                     </div>

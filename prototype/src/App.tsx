@@ -50,6 +50,28 @@ const SCREEN_ORDER: ScreenId[] = [
   'merchant',
 ]
 
+export interface CheckoutData {
+  email: string
+  firstName: string
+  lastName: string
+  address: string
+  apartment: string
+  postalCode: string
+  phone: string
+  shippingMethod: 'standard' | 'fast'
+}
+
+const DEFAULT_CHECKOUT: CheckoutData = {
+  email: 'user@example.com',
+  firstName: 'Ahmed',
+  lastName: 'Khan',
+  address: 'House 12, Street 5, DHA Phase 6',
+  apartment: '',
+  postalCode: '54000',
+  phone: '+92 300 1234567',
+  shippingMethod: 'standard',
+}
+
 export interface NavProps {
   goTo: (screen: ScreenId) => void
   goBack: () => void
@@ -61,6 +83,8 @@ export interface NavProps {
   setPaymentMethod: (m: string) => void
   cartCount: number
   setCartCount: (n: number) => void
+  checkoutData: CheckoutData
+  setCheckoutData: (data: CheckoutData) => void
 }
 
 export default function App() {
@@ -70,6 +94,7 @@ export default function App() {
   const [selectedProductId, setSelectedProductId] = useState<number>(1)
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('')
   const [cartCount, setCartCount] = useState<number>(1)
+  const [checkoutData, setCheckoutData] = useState<CheckoutData>(DEFAULT_CHECKOUT)
   const history = useRef<ScreenId[]>(['home'])
 
   // Sync with browser history for real back/forward button support
@@ -129,7 +154,7 @@ export default function App() {
   }
 
   const setPaymentMethod = (m: string) => setSelectedPaymentMethod(m)
-  const nav: NavProps = { goTo, goBack, currentScreen, selectedProductId, goToProduct, addToCart, selectedPaymentMethod, setPaymentMethod, cartCount, setCartCount }
+  const nav: NavProps = { goTo, goBack, currentScreen, selectedProductId, goToProduct, addToCart, selectedPaymentMethod, setPaymentMethod, cartCount, setCartCount, checkoutData, setCheckoutData }
 
   const screenNode = (id: ScreenId) => {
     switch (id) {

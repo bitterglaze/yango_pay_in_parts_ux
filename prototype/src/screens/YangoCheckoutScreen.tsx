@@ -107,7 +107,7 @@ function toTitleCase(str: string) {
   return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase())
 }
 
-export default function YangoCheckoutScreen({ goTo, goBack, selectedProductId }: NavProps) {
+export default function YangoCheckoutScreen({ goTo, goBack, selectedProductId, checkoutData, setCheckoutData }: NavProps) {
   const product = PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0]
   const productName = toTitleCase(product.name)
 
@@ -135,13 +135,13 @@ export default function YangoCheckoutScreen({ goTo, goBack, selectedProductId }:
     { date: addWeeks(4), amount: fmtRs(perPart) },
     { date: addWeeks(6), amount: fmtRs(perPart) },
   ]
-  const [email,      setEmail]      = useState('example@mail.ru')
-  const [firstName,  setFirstName]  = useState('Roman')
-  const [lastName,   setLastName]   = useState('')
-  const [address,    setAddress]    = useState('')
-  const [apartment,  setApartment]  = useState('')
-  const [postalCode, setPostalCode] = useState('')
-  const [phone,      setPhone]      = useState('+97 263 27 34')
+  const [email,      setEmail]      = useState(checkoutData.email)
+  const [firstName,  setFirstName]  = useState(checkoutData.firstName)
+  const [lastName,   setLastName]   = useState(checkoutData.lastName)
+  const [address,    setAddress]    = useState(checkoutData.address)
+  const [apartment,  setApartment]  = useState(checkoutData.apartment)
+  const [postalCode, setPostalCode] = useState(checkoutData.postalCode)
+  const [phone,      setPhone]      = useState(checkoutData.phone)
 
   return (
     <div style={{
@@ -437,7 +437,10 @@ export default function YangoCheckoutScreen({ goTo, goBack, selectedProductId }:
       }}>
         <div style={{ padding: '8px 4px 0' }}>
           <button
-            onClick={() => goTo('bnpl-auth')}
+            onClick={() => {
+              setCheckoutData({ email, firstName, lastName, address, apartment, postalCode, phone, shippingMethod })
+              goTo('bnpl-auth')
+            }}
             style={{
               width: '100%', height: 56,
               background: YANGO_RED, color: TEXT_INVERTED,

@@ -59,11 +59,16 @@ export function BuyNowModal({
           transition: 'top 300ms ease, border-radius 300ms ease',
         }}
       >
-        {/* Sticky header: Yango logo + close (Elements.svg) */}
+        {/* Grabber indicator */}
+        <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 8, paddingBottom: 4, flexShrink: 0 }}>
+          <div style={{ width: 36, height: 4, borderRadius: 2, background: 'rgba(0,0,0,0.2)' }} />
+        </div>
+
+        {/* Sticky header: Yango logo + close */}
         <div style={{
-          height: 48, flexShrink: 0,
+          height: 44, flexShrink: 0,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          position: 'sticky', top: 0, zIndex: 10, background: '#fff', paddingTop: 8,
+          position: 'sticky', top: 0, zIndex: 10, background: '#fff',
         }}>
           <img src="/checkout/YangoMainLogo.svg" alt="Yango" style={{ height: 22 }} />
           <button onClick={onClose} style={{
@@ -78,7 +83,7 @@ export function BuyNowModal({
         </div>
 
         {/* Scrollable content */}
-        <div ref={scrollRef} style={{ flex: 1, overflowY: 'auto', paddingBottom: 88 }}>
+        <div ref={scrollRef} style={{ flex: 1, overflowY: 'auto', paddingBottom: 100 }}>
 
           {/* Price + merchant — #1 "Outfitters" = Text Icon / Secondary */}
           <div style={{ textAlign: 'center', padding: '12px 20px 20px' }}>
@@ -143,7 +148,7 @@ export function BuyNowModal({
           {/* #4 — Promo cards */}
           <div style={{ padding: '0 20px', display: 'flex', flexDirection: 'column', gap: 8 }}>
             <div style={{ display: 'flex', gap: 8, height: 200 }}>
-              {/* Approval in minutes — #4 hand image 2x larger */}
+              {/* Approval in minutes */}
               <div style={{ flex: 1, background: '#f3f5f7', borderRadius: 24, overflow: 'hidden', position: 'relative', padding: 20, minWidth: 0 }}>
                 <p style={{ margin: 0, position: 'relative', zIndex: 1, fontFamily: FONT_FAMILY, fontSize: 18, fontWeight: 500, lineHeight: '20px', color: 'rgba(0,0,0,0.86)' }}>Approval<br/>in minutes</p>
                 <p style={{ margin: '4px 0 0', position: 'relative', zIndex: 1, fontFamily: FONT_FAMILY, fontSize: 14, color: 'rgba(0,0,0,0.5)', lineHeight: '18px' }}>Fully online</p>
@@ -153,7 +158,7 @@ export function BuyNowModal({
                 }} />
               </div>
               {/* Repayments in the app */}
-              <div style={{ width: 163, flexShrink: 0, background: '#f3f5f7', borderRadius: 24, overflow: 'hidden', position: 'relative', padding: 20 }}>
+              <div style={{ flex: 1, background: '#f3f5f7', borderRadius: 24, overflow: 'hidden', position: 'relative', padding: 20, minWidth: 0 }}>
                 <p style={{ margin: 0, position: 'relative', zIndex: 1, fontFamily: FONT_FAMILY, fontSize: 18, fontWeight: 500, lineHeight: '20px', color: 'rgba(0,0,0,0.86)' }}>Repayments<br/>in the app</p>
                 <p style={{ margin: '4px 0 0', position: 'relative', zIndex: 1, fontFamily: FONT_FAMILY, fontSize: 14, color: 'rgba(0,0,0,0.5)', lineHeight: '18px' }}>Card, Easypaisa<br/>or JazzCash</p>
                 <img src="/checkout/PromoCard2.png" alt="" style={{
@@ -162,20 +167,20 @@ export function BuyNowModal({
                 }} />
               </div>
             </div>
-            {/* #4 — Clear upfront pricing: image as background */}
+            {/* Clear upfront pricing */}
             <div style={{
               background: '#f3f5f7', borderRadius: 24, height: 200,
               overflow: 'hidden', position: 'relative', padding: 20,
               backgroundImage: 'url(/checkout/PromoCard3.png)',
               backgroundSize: '55% auto', backgroundPosition: 'right center', backgroundRepeat: 'no-repeat',
             }}>
-              <p style={{ margin: 0, position: 'relative', zIndex: 1, fontFamily: FONT_FAMILY, fontSize: 18, fontWeight: 500, lineHeight: '20px', color: 'rgba(0,0,0,0.86)' }}>Clear upfront pricing</p>
-              <p style={{ margin: '4px 0 0', position: 'relative', zIndex: 1, fontFamily: FONT_FAMILY, fontSize: 14, color: 'rgba(0,0,0,0.5)', lineHeight: '18px' }}>No hidden fees and terms</p>
+              <p style={{ margin: 0, position: 'relative', zIndex: 1, fontFamily: FONT_FAMILY, fontSize: 18, fontWeight: 500, lineHeight: '20px', color: 'rgba(0,0,0,0.86)', maxWidth: '50%' }}>Clear upfront pricing</p>
+              <p style={{ margin: '4px 0 0', position: 'relative', zIndex: 1, fontFamily: FONT_FAMILY, fontSize: 14, color: 'rgba(0,0,0,0.5)', lineHeight: '18px', maxWidth: '50%' }}>No hidden fees and terms</p>
             </div>
           </div>
 
-          {/* How it works */}
-          <div style={{ padding: '24px 20px 0' }}>
+          {/* How it works — 32px gap after promo cards */}
+          <div style={{ padding: '32px 20px 0' }}>
             <p style={{ margin: '0 0 16px', fontFamily: FONT_FAMILY, fontSize: 26, fontWeight: 500, lineHeight: '28px', color: 'rgba(0,0,0,0.86)' }}>How it works</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               {STEPS.map((step, i) => (
@@ -190,8 +195,8 @@ export function BuyNowModal({
             </div>
           </div>
 
-          {/* FAQ */}
-          <div style={{ padding: '24px 20px 0' }}>
+          {/* FAQ — 32px gap after How it works, 32px bottom padding */}
+          <div style={{ padding: '32px 20px 32px' }}>
             <p style={{ margin: '0 0 8px', fontFamily: FONT_FAMILY, fontSize: 26, fontWeight: 500, lineHeight: '28px', color: 'rgba(0,0,0,0.86)' }}>You may ask</p>
             {FAQS.map((faq, i) => {
               const isOpen = expandedFaq === i
@@ -210,18 +215,18 @@ export function BuyNowModal({
                   {isOpen && (
                     <div style={{ paddingBottom: 20, fontFamily: FONT_FAMILY, fontSize: 16, fontWeight: 400, lineHeight: '20px', color: 'rgba(0,0,0,0.86)', ...NUM }}>{faq.a}</div>
                   )}
-                  <div style={{ height: 1, background: 'rgba(0,0,0,0.08)' }} />
+                  {i < FAQS.length - 1 && <div style={{ height: 1, background: 'rgba(0,0,0,0.08)' }} />}
                 </div>
               )
             })}
           </div>
         </div>
 
-        {/* Footer CTA — rounded top corners 24px */}
+        {/* Footer CTA — always on top, never overlapped */}
         <div style={{
-          position: 'absolute', bottom: 0, left: 0, right: 0,
+          position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 20,
           background: '#fff', boxShadow: '0 -4px 20px rgba(0,0,0,0.08)',
-          padding: '12px 20px 20px',
+          padding: '12px 20px 28px',
           borderTopLeftRadius: 24, borderTopRightRadius: 24,
         }}>
           <button onClick={onSplit} style={{

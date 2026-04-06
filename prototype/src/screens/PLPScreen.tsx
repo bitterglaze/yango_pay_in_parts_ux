@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { NavProps } from '../App'
 import { OutfittersHeader, CategoryTabs, PRODUCTS, formatPrice, bnplYango, bnplBaadmay, OUT_BLACK, OUT_WHITE, OUT_BORDER, OUT_GRAY, OUT_BG, OUT_FONT } from './merchant-shared'
 import { BaadmayBadge } from './baadmay-shared'
-import { SplitBadge } from './shared'
+// SplitBadge no longer used — Yango badge is inline
 
 export default function PLPScreen({ goTo, goBack, goToProduct, cartCount }: NavProps) {
   const [activeTab, setActiveTab] = useState<'MEN' | 'WOMEN' | 'JUNIORS'>('MEN')
@@ -65,12 +65,12 @@ export default function PLPScreen({ goTo, goBack, goToProduct, cartCount }: NavP
                 {/* Quick add */}
                 <div style={{
                   position: 'absolute', bottom: 8, right: 8,
-                  width: 28, height: 28, borderRadius: '50%',
-                  background: 'rgba(255,255,255,0.92)',
+                  width: 28, height: 28, borderRadius: 0,
+                  background: 'rgba(220,220,220,0.75)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}>
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M7 2V12M2 7H12" stroke={OUT_BLACK} strokeWidth="1.5" strokeLinecap="round"/>
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <path d="M9 3V15M3 9H15" stroke={OUT_BLACK} strokeWidth="1"/>
                   </svg>
                 </div>
               </div>
@@ -93,9 +93,20 @@ export default function PLPScreen({ goTo, goBack, goToProduct, cartCount }: NavP
                 {/* BNPL badges row */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
                   <BaadmayBadge installment={bnplBaadmay(p.price)} />
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-                    <SplitBadge size="sm" />
-                    <span style={{ fontSize: 9, color: OUT_GRAY }}>4× {bnplYango(p.price)}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <div style={{
+                      display: 'flex', alignItems: 'center', height: 18,
+                      background: '#FF0000',
+                      borderRadius: '9px 3px 3px 9px',
+                      overflow: 'hidden',
+                      paddingLeft: 2,
+                    }}>
+                      <img src="/checkout/PacmanIcon.png" alt="" style={{ width: 14, height: 14, display: 'block', flexShrink: 0 }} />
+                      <span style={{ fontSize: 9, fontWeight: 700, color: '#fff', lineHeight: '9px', whiteSpace: 'nowrap', padding: '0 4px 0 2px', fontVariantNumeric: 'lining-nums proportional-nums' }}>
+                        {bnplYango(p.price)}
+                      </span>
+                    </div>
+                    <span style={{ fontSize: 9, color: OUT_GRAY, whiteSpace: 'nowrap' }}>with Yango</span>
                   </div>
                 </div>
 

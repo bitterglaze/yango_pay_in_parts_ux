@@ -65,7 +65,7 @@ export default function PDPScreen({ goTo, goBack, goToProduct, selectedProductId
           <BaadmayWidget price={product.price} size="sm" />
 
           {/* #29+30 — Yango widget immediately after Baadmay, ABOVE Add to Cart */}
-          <div style={{ marginTop: 2 }}>
+          <div style={{ marginTop: 8 }}>
             <YangoWidget price={product.price} size="sm" onBuy={() => setShowBuyModal(true)} />
           </div>
 
@@ -118,7 +118,12 @@ export default function PDPScreen({ goTo, goBack, goToProduct, selectedProductId
             <div key={sec.key} style={{ borderBottom: `1px solid ${OUT_BORDER}` }}>
               <div onClick={() => toggleSection(sec.key)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', cursor: 'pointer' }}>
                 <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: OUT_BLACK, fontFamily: OUT_FONT }}>{sec.label}</span>
-                <span style={{ fontSize: 18, color: OUT_GRAY, lineHeight: 1 }}>{openSection === sec.key ? '−' : '+'}</span>
+                <div style={{
+                  width: 24, height: 24, background: '#e8e8e8', borderRadius: 0,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                }}>
+                  <span style={{ fontSize: 16, color: OUT_BLACK, lineHeight: 1, fontWeight: 300 }}>{openSection === sec.key ? '−' : '+'}</span>
+                </div>
               </div>
               {openSection === sec.key && (
                 <div style={{ padding: '0 16px 14px', fontSize: 13, color: OUT_GRAY, lineHeight: 1.6, fontFamily: OUT_FONT }}>{sec.content}</div>
