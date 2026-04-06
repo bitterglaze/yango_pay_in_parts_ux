@@ -39,7 +39,6 @@ const imgMerchantLogo = '/checkout/MerchLogo.png'
 // Green Pacman / watermelon split icon (from Figma node 64:12994 context)
 const imgSplitIcon  = '/checkout/SplitIcon.svg'
 // CrossRoundFill icon — gray circle with × (Figma node 64:3612 / Trail area)
-const imgCrossRoundFill = 'http://localhost:3845/assets/deffa0bf8fdad6b1360badc1c069f4b4e38ce0c4.svg'
 
 // ── Inline SVG icons ──────────────────────────────────────────────────────────
 function ProductFillIcon() {

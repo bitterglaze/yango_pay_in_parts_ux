@@ -151,8 +151,6 @@ export default function App() {
     }
   }
 
-  const idx = SCREEN_ORDER.indexOf(currentScreen)
-
   return (
     <>
       <style>{`
