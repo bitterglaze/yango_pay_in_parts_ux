@@ -51,7 +51,7 @@ export default function ConfirmPlanScreen({ goTo, goBack, selectedProductId, sel
       {/* Summary — H1 + merchant */}
       <div style={{ padding: '12px 0 20px', textAlign: 'center', flexShrink: 0 }}>
         <div style={{ fontSize: 32, fontWeight: 500, letterSpacing: -0.5, lineHeight: '34px', color: TEXT_PRIMARY, ...NUM_VARIANT }}>
-          {fmtRs(product.price)}
+          {fmtRs(CART_TOTAL)}
         </div>
         <div style={{ fontSize: FONT_SIZE_BASE, color: TEXT_SECONDARY, marginTop: 4, lineHeight: '18px', ...NUM_VARIANT }}>
           Outfitters

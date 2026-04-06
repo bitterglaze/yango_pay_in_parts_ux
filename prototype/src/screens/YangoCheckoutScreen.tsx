@@ -474,7 +474,7 @@ const CONFIDENCE_ITEMS = [
   {
     icon: '/checkout/Wallet Sber Tin Rotated.png',
     title: 'Make first payment',
-    sub: "Full refund if you don't accept the order",
+    sub: "Full refund if your order is cancelled or returned",
   },
   {
     icon: '/checkout/Box Split.png',

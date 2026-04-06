@@ -177,7 +177,7 @@ export default function OTPScreen({ goTo, goBack, filled }: OTPScreenProps) {
                     <path d="M11 5.5L17 12.5M17 5.5L11 12.5" stroke="rgba(0,0,0,0.65)" strokeWidth="1.3" strokeLinecap="round"/>
                   </svg>
                 ) : isSym ? (
-                  <span style={{ fontSize: 17, color: 'rgba(0,0,0,0.65)', fontWeight: 300 }}>+*#</span>
+                  <span style={{ fontSize: 17, color: 'rgba(0,0,0,0.65)', fontWeight: 300, opacity: 0 }}>+*#</span>
                 ) : (
                   <>
                     <span style={{ fontSize: 25, color: DARK_TEXT, fontWeight: 300, lineHeight: '28px' }}>{key}</span>
@@ -191,8 +191,8 @@ export default function OTPScreen({ goTo, goBack, filled }: OTPScreenProps) {
           })}
         </div>
 
-        {/* Bottom safe area for keyboard */}
-        <div style={{ height: 20 }} />
+        {/* Bottom safe area — same color as keyboard */}
+        <div style={{ height: 20, background: 'rgba(214,214,214,0.75)' }} />
       </div>
 
       <style>{`

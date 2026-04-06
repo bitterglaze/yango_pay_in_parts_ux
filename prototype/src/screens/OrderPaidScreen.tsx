@@ -11,12 +11,8 @@ const ASSET_OUTFITTERS   = '/checkout/Outfitters.png'
 const ASSET_YANGO_PAY    = '/checkout/Yango x Pay.png'
 
 // Figma MCP — payment method SVG marks (Figma node 44:47068 / SelectPaymentScreen)
-const ASSET_JAZZCASH_SVG  = 'http://localhost:3845/assets/66735c306980d769f84c0cc5f386d353d9ba8ad9.svg'   // JazzCash mark
-const ASSET_EASYPAISA_SVG = 'http://localhost:3845/assets/fb378d21c286e029ec7e98876f76f262ccf94262.svg'  // Easypaisa mark
-
-// Figma MCP — emoji faces
-const ASSET_EMOJI_SAD    = 'http://localhost:3845/assets/3bf0aa3e3910cacfb8699ac24cc3877b347019c7.png'
-const ASSET_EMOJI_HAPPY  = 'http://localhost:3845/assets/50826c7a23bb8f9c98255e995b67304f12a22094.png'
+const ASSET_JAZZCASH_IMG  = '/checkout/Method-JazzCash.png'
+const ASSET_EASYPAISA_IMG = '/checkout/Method-Easypaisa.png'
 
 const NUM_VARIANT: React.CSSProperties = { fontVariantNumeric: 'lining-nums proportional-nums' }
 
@@ -48,7 +44,7 @@ export default function OrderPaidScreen({ goTo, selectedProductId, selectedPayme
 
   const isJazzCash = !selectedPaymentMethod || selectedPaymentMethod === 'jazzcash'
   const paymentLabel   = isJazzCash ? 'JazzCash' : 'Easypaisa'
-  const paymentIconSvg = isJazzCash ? ASSET_JAZZCASH_SVG : ASSET_EASYPAISA_SVG
+  const paymentIconSvg = isJazzCash ? ASSET_JAZZCASH_IMG : ASSET_EASYPAISA_IMG
   const paymentIconBg  = isJazzCash ? '#010101' : '#332c3d'
 
   return (
@@ -207,30 +203,8 @@ export default function OrderPaidScreen({ goTo, selectedProductId, selectedPayme
               How was the process?
             </div>
             <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexShrink: 0 }}>
-              {/* Sad emoji — 40×40 container, Figma: overflow-clip, inset 4%/4.17%/4.06%/4.17% */}
-              <div style={{ width: 40, height: 40, overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
-                <div style={{ position: 'absolute', top: '4%', right: '4.17%', bottom: '4.06%', left: '4.17%' }}>
-                  <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
-                    <img src={ASSET_EMOJI_SAD} alt="" style={{
-                      position: 'absolute', width: '111.09%', height: '109.96%',
-                      left: '-6.1%', top: '-6.05%', maxWidth: 'none',
-                      filter: 'grayscale(1)',
-                    }} />
-                  </div>
-                </div>
-              </div>
-              {/* Happy emoji — 40×40 container, Figma: overflow-clip, inset 4.17% all */}
-              <div style={{ width: 40, height: 40, overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
-                <div style={{ position: 'absolute', top: '4.17%', right: '4.17%', bottom: '4.17%', left: '4.17%' }}>
-                  <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
-                    <img src={ASSET_EMOJI_HAPPY} alt="" style={{
-                      position: 'absolute', width: '113.99%', height: '109.96%',
-                      left: '-6.07%', top: '-6.05%', maxWidth: 'none',
-                      filter: 'grayscale(1)',
-                    }} />
-                  </div>
-                </div>
-              </div>
+              <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, cursor: 'pointer', filter: 'grayscale(1)' }}>😔</div>
+              <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, cursor: 'pointer', filter: 'grayscale(1)' }}>😊</div>
             </div>
           </div>
 
@@ -250,17 +224,13 @@ export default function OrderPaidScreen({ goTo, selectedProductId, selectedPayme
                 borderRadius: 8,
                 paddingLeft: 10, paddingRight: 6,
               }}>
-                {/* Method icon — Figma: bg #010101/#332c3d, 16×10.667, radius 3 */}
+                {/* Method icon */}
                 <div style={{
-                  width: 16, height: 10.667, flexShrink: 0,
+                  width: 24, height: 16, flexShrink: 0,
                   background: paymentIconBg, borderRadius: 3, overflow: 'hidden',
-                  position: 'relative',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}>
-                  {/* Logo inside — Figma: 10.102×8.142, top 1.33px, centered x */}
-                  <div style={{ position: 'absolute', width: 10.102, height: 8.142, top: 1.33, left: '50%', transform: 'translateX(-50%)' }}>
-                    <img src={paymentIconSvg} alt={paymentLabel} style={{ width: '100%', height: '100%', display: 'block' }} />
-                  </div>
+                  <img src={paymentIconSvg} alt={paymentLabel} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </div>
                 {/* Label — Figma: 14px Regular */}
                 <span style={{ fontSize: 14, fontWeight: 400, lineHeight: '18px', color: TEXT_PRIMARY, ...NUM_VARIANT }}>
@@ -314,7 +284,7 @@ export default function OrderPaidScreen({ goTo, selectedProductId, selectedPayme
         background: BACKGROUND,
         borderRadius: '24px 24px 0 0',
         boxShadow: SHADOW_MEDIUM,
-        paddingTop: 12, paddingBottom: 20, paddingLeft: 20, paddingRight: 20,
+        paddingTop: 12, paddingBottom: 32, paddingLeft: 20, paddingRight: 20,
         display: 'flex', flexDirection: 'column', gap: 8,
         flexShrink: 0,
       }}>

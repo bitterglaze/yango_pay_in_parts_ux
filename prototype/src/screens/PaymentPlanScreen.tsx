@@ -236,7 +236,7 @@ export default function PaymentPlanScreen({ goTo, goBack, selectedProductId, sel
         background: BACKGROUND,
         borderRadius: `${RADIUS_XL}px ${RADIUS_XL}px 0 0`,
         boxShadow: SHADOW_MEDIUM,
-        padding: '12px 20px 20px',
+        padding: '12px 20px 32px',
         flexShrink: 0,
         display: 'flex', flexDirection: 'column', gap: 8,
       }}>

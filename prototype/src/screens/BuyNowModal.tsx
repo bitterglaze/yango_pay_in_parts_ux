@@ -12,14 +12,14 @@ const STEPS = [
 ]
 
 const FAQS = [
-  { q: 'How does it work?', a: 'Pay in Parts applies to orders placed using the Cash on Delivery option. Simply select this payment option at checkout and complete the Pay in Parts activation process. Soon, Yango Pay in Parts will be available as a separate payment option.' },
+  { q: 'How does it work?', a: 'Select Pay in Parts at checkout, complete a quick verification with your CNIC and a selfie, and confirm your payment plan. Your first installment is paid online, and the remaining payments are made every two weeks in the Yango app.' },
   { q: 'How do I make installment payments?', a: 'All installment payments are completed online in the Yango app. You can use a mobile wallet (Easypaisa, JazzCash) or a debit/credit card.' },
   { q: 'What happens if I return a product?', a: 'If the merchant approves your return, your installment plan will be updated, and any payments already made will be refunded.' },
   { q: 'Is there any interest?', a: 'No interest is charged. However, the total price of the product may differ from the original price due to a small transparent service fee shown upfront.' },
   { q: 'Who can use Yango Pay in Parts?', a: 'Anyone 18 years or older with a valid CNIC and mobile number in Pakistan.' },
   { q: 'Do I need a credit card?', a: 'A credit card may be used, but it is not required. Installment payments are made via the Yango app using Easypaisa, JazzCash, or a debit card.' },
   { q: 'Why is the first payment higher than the others?', a: 'If the total purchase amount is higher than your available limit, the extra amount is added to the first payment. The remaining installments stay equal.' },
-  { q: 'How can I see my repayments schedule?', a: 'You can view your full repayment schedule, upcoming payments, and due dates in the Yango app under the Pay in Parts section.' },
+  { q: 'How can I see my repayments schedule?', a: 'You can view your full repayment schedule, upcoming payments, and due dates in the Yango app under the Pay in Parts section. We\u2019ll also send you reminders before each payment is due, so you\u2019ll never miss a deadline.' },
   { q: 'What happens if I miss a payment?', a: 'If a payment is missed, you may be charged a late fee and your account and available limit may be affected. Contact support if you need help.' },
 ]
 
@@ -147,9 +147,9 @@ export function BuyNowModal({
 
           {/* #4 — Promo cards */}
           <div style={{ padding: '0 20px', display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <div style={{ display: 'flex', gap: 8, height: 200 }}>
+            <div style={{ display: 'flex', gap: 8 }}>
               {/* Approval in minutes */}
-              <div style={{ flex: 1, background: '#f3f5f7', borderRadius: 24, overflow: 'hidden', position: 'relative', padding: 20, minWidth: 0 }}>
+              <div style={{ flex: 1, background: '#f3f5f7', borderRadius: 24, overflow: 'hidden', position: 'relative', padding: 20, minWidth: 0, aspectRatio: '163.5 / 200' }}>
                 <p style={{ margin: 0, position: 'relative', zIndex: 1, fontFamily: FONT_FAMILY, fontSize: 18, fontWeight: 500, lineHeight: '20px', color: 'rgba(0,0,0,0.86)' }}>Approval<br/>in minutes</p>
                 <p style={{ margin: '4px 0 0', position: 'relative', zIndex: 1, fontFamily: FONT_FAMILY, fontSize: 14, color: 'rgba(0,0,0,0.5)', lineHeight: '18px' }}>Fully online</p>
                 <img src="/checkout/PromoCard1.png" alt="" style={{
@@ -158,7 +158,7 @@ export function BuyNowModal({
                 }} />
               </div>
               {/* Repayments in the app */}
-              <div style={{ flex: 1, background: '#f3f5f7', borderRadius: 24, overflow: 'hidden', position: 'relative', padding: 20, minWidth: 0 }}>
+              <div style={{ flex: 1, background: '#f3f5f7', borderRadius: 24, overflow: 'hidden', position: 'relative', padding: 20, minWidth: 0, aspectRatio: '163.5 / 200' }}>
                 <p style={{ margin: 0, position: 'relative', zIndex: 1, fontFamily: FONT_FAMILY, fontSize: 18, fontWeight: 500, lineHeight: '20px', color: 'rgba(0,0,0,0.86)' }}>Repayments<br/>in the app</p>
                 <p style={{ margin: '4px 0 0', position: 'relative', zIndex: 1, fontFamily: FONT_FAMILY, fontSize: 14, color: 'rgba(0,0,0,0.5)', lineHeight: '18px' }}>Card, Easypaisa<br/>or JazzCash</p>
                 <img src="/checkout/PromoCard2.png" alt="" style={{
@@ -234,7 +234,7 @@ export function BuyNowModal({
             border: 'none', borderRadius: 14,
             fontFamily: FONT_FAMILY, fontSize: 18, fontWeight: 500, lineHeight: '20px', cursor: 'pointer',
           }}>
-            Split the payment
+            Pay in parts
           </button>
         </div>
       </div>
