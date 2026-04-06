@@ -36,7 +36,7 @@ export default function ConfirmPlanScreen({ goTo, goBack, selectedProductId, sel
   const product = PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0]
   const DELIVERY = 500
   const CART_TOTAL = product.price + DELIVERY
-  const PNP_FEE = Math.floor(CART_TOTAL * 0.03)
+  const PNP_FEE = Math.floor(CART_TOTAL * 0.15)
   const GRAND_TOTAL = CART_TOTAL + PNP_FEE
   const PER_PAYMENT = Math.round(GRAND_TOTAL / 4)
   const isEasypaisa = selectedPaymentMethod === 'easypaisa'

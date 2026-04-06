@@ -11,7 +11,7 @@ export function BaadmayWidget({ price, size = 'sm' }: { price: number; size?: 's
   const fontSize = isLg ? 12 : 11
   return (
     <div style={{
-      display: 'flex', alignItems: 'center', gap: isLg ? 4 : 5,
+      display: 'flex', alignItems: 'center', gap: isLg ? 3 : 3,
       padding: isLg ? '3px 0' : '2px 0',
     }}>
       <img src="/checkout/baadmay-logo.svg" alt="baadmay"
@@ -55,11 +55,11 @@ export function YangoWidget({ price, size = 'sm', onBuy }: { price: number; size
         </div>
       </div>
       <button onClick={onBuy} style={{
-        background: YANGO_RED, border: 'none', borderRadius: 10, height: 32, padding: '0 12px',
+        background: YANGO_RED, border: 'none', borderRadius: 8, height: 32, padding: '0 12px',
         color: 'rgba(255,255,255,0.98)', fontSize: 13, fontWeight: 500, lineHeight: '14px',
         cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0, fontFamily: FONT_FAMILY,
       }}>
-        Buy with Yango
+        Buy in parts
       </button>
     </div>
   )

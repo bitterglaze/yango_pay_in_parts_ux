@@ -150,7 +150,7 @@ export default function PDPScreen({ goTo, goBack, goToProduct, selectedProductId
       </div>
 
       {showBuyModal && (
-        <BuyNowModal price={product.price + 500} onClose={() => setShowBuyModal(false)} onSplit={() => { setShowBuyModal(false); goTo('yango-checkout') }} />
+        <BuyNowModal price={product.price} onClose={() => setShowBuyModal(false)} onSplit={() => { setShowBuyModal(false); goTo('yango-checkout') }} />
       )}
     </div>
   )

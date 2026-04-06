@@ -121,7 +121,7 @@ export default function OTPScreen({ goTo, goBack, filled }: OTPScreenProps) {
       <div style={{
         background: 'rgba(214,214,214,0.75)',
         borderRadius: '27px 27px 0 0',
-        padding: '8px 3px 0',
+        padding: '8px 3px 20px',
         flexShrink: 0,
       }}>
         {/* YANGO suggestion bar inside keyboard */}
@@ -191,8 +191,6 @@ export default function OTPScreen({ goTo, goBack, filled }: OTPScreenProps) {
           })}
         </div>
 
-        {/* Bottom safe area — same color as keyboard */}
-        <div style={{ height: 20, background: 'rgba(214,214,214,0.75)' }} />
       </div>
 
       <style>{`

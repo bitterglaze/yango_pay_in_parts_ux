@@ -13,8 +13,10 @@ function fmtRs(n: number): string {
   return `Rs.${n.toLocaleString('en-PK')}`
 }
 
-export default function BNPLAuthScreen({ goTo, goBack, selectedProductId }: NavProps) {
+export default function BNPLAuthScreen({ goTo, goBack, selectedProductId, checkoutData }: NavProps) {
   const product = PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0]
+  const shipping = checkoutData.shippingMethod === 'fast' ? 800 : 500
+  const displayPrice = product.price + shipping
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: BACKGROUND }}>
       {/* Header / Checkout — DI + navbar */}
@@ -26,7 +28,7 @@ export default function BNPLAuthScreen({ goTo, goBack, selectedProductId }: NavP
           fontSize: 32, fontWeight: 500, letterSpacing: -0.5, lineHeight: '34px',
           color: TEXT_PRIMARY, ...NUM_VARIANT,
         }}>
-          {fmtRs(product.price)}
+          {fmtRs(displayPrice)}
         </div>
         <div style={{
           fontSize: FONT_SIZE_BASE, color: TEXT_SECONDARY, marginTop: 4, lineHeight: '18px',

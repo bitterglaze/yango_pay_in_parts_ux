@@ -50,9 +50,9 @@ const TAB_CONTENT: Record<Tab, {
 
 // Map focus categories to product name keywords — works across all tabs
 const FOCUS_KEYWORDS: Record<FocusCategory, string[]> = {
-  'T-Shirts & Polos': ['T-SHIRT', 'POLO', 'TANK TOP', 'GRAPHIC', 'SLOGAN', 'RIBBED', 'TEXTURED', 'EMBROIDERED', 'BASIC', 'CROPPED'],
-  'Denim': ['JEANS', 'DENIM', 'CULOTTE'],
-  'Trousers': ['TROUSERS', 'CARGO', 'MARINE', 'WIDE LEG'],
+  'T-Shirts & Polos': ['T-SHIRT', 'POLO', 'TANK TOP', 'CO-ORD'],
+  'Denim': ['JEANS', 'DENIM'],
+  'Trousers': ['TROUSERS', 'CARGO TROUSERS', 'MARINE FIT TROUSERS'],
 }
 
 export default function HomeScreen({ goTo, goToProduct, addToCart, cartCount }: NavProps) {
@@ -90,7 +90,7 @@ export default function HomeScreen({ goTo, goToProduct, addToCart, cartCount }: 
       <div style={{ flex: 1, overflowY: 'auto' }}>
 
         {/* #8+9 — Hero banner with auto-slider */}
-        <div style={{ position: 'relative', width: '100%', aspectRatio: '375/460', overflow: 'hidden', flexShrink: 0 }}>
+        <div style={{ position: 'relative', width: '100%', aspectRatio: '375/460', overflow: 'hidden', flexShrink: 0, background: '#1a1a1a' }}>
           {heroes.map((h, i) => (
             <img
               key={h.img}
@@ -99,22 +99,22 @@ export default function HomeScreen({ goTo, goToProduct, addToCart, cartCount }: 
               style={{
                 position: 'absolute', inset: 0, width: '100%', height: '100%',
                 objectFit: 'cover', display: 'block',
-                opacity: i === heroIdx ? 1 : 0,
-                transition: 'opacity 800ms ease-in-out',
+                opacity: 1,
+                zIndex: i === heroIdx ? 2 : 1,
+                transition: 'none',
               }}
             />
           ))}
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%)' }} />
-          <div style={{ position: 'absolute', bottom: 24, left: 0, right: 0, textAlign: 'center' }}>
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%)', zIndex: 3 }} />
+          <div style={{ position: 'absolute', bottom: 24, left: 0, right: 0, textAlign: 'center', zIndex: 4 }}>
             <div style={{
               fontSize: 28, fontWeight: 500, color: OUT_WHITE, letterSpacing: '0.1em', fontFamily: OUT_FONT,
-              transition: 'opacity 600ms ease', opacity: 1,
             }}>
               {heroes[heroIdx].label}
             </div>
           </div>
           {/* Dot indicators */}
-          <div style={{ position: 'absolute', bottom: 8, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 5 }}>
+          <div style={{ position: 'absolute', bottom: 8, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 5, zIndex: 4 }}>
             {heroes.map((_, i) => (
               <div key={i} onClick={() => setHeroIdx(i)} style={{
                 width: i === heroIdx ? 18 : 6, height: 4, borderRadius: 2,
@@ -126,10 +126,10 @@ export default function HomeScreen({ goTo, goToProduct, addToCart, cartCount }: 
         </div>
 
         {/* Category strip */}
-        <div style={{ overflowX: 'auto', display: 'flex', gap: 2, padding: '2px 0', flexShrink: 0 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${categories.length}, 1fr)`, gap: 2, padding: '2px 0', flexShrink: 0 }}>
           {categories.map(({ img, label }) => (
-            <div key={label} onClick={() => goTo('plp')} style={{ position: 'relative', width: 120, flexShrink: 0, cursor: 'pointer' }}>
-              <img src={img} alt={label} style={{ width: 120, height: 160, objectFit: 'cover', display: 'block' }} />
+            <div key={label} onClick={() => goTo('plp')} style={{ position: 'relative', cursor: 'pointer' }}>
+              <img src={img} alt={label} style={{ width: '100%', aspectRatio: '3/4', objectFit: 'cover', display: 'block' }} />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%)' }} />
               <div style={{ position: 'absolute', bottom: 10, left: 0, right: 0, textAlign: 'center', fontSize: 10, fontWeight: 700, color: OUT_WHITE, letterSpacing: '0.1em' }}>
                 {label}
@@ -187,8 +187,8 @@ export default function HomeScreen({ goTo, goToProduct, addToCart, cartCount }: 
                   </div>
                 </div>
                 <div style={{ padding: '6px 4px 10px', fontFamily: OUT_FONT }}>
-                  {/* Name: 11px, #000, normal weight — matches Outfitters site */}
-                  <div style={{ fontSize: 11, fontWeight: 500, color: '#000000', lineHeight: 1.3, marginBottom: 0 }}>{p.name}</div>
+                  {/* Name: 11px, SemiBold — visually prominent */}
+                  <div style={{ fontSize: 11, fontWeight: 600, color: '#000000', lineHeight: 1.3, marginBottom: 0 }}>{p.name}</div>
                   {/* Fit: 8px, #202020, margin-top 3px */}
                   <div style={{ fontSize: 8, color: '#202020', letterSpacing: '0.03em', marginTop: 3, marginBottom: 3 }}>{p.fit}</div>
                   {/* Price: 11px, bold, #121212 */}
@@ -197,30 +197,30 @@ export default function HomeScreen({ goTo, goToProduct, addToCart, cartCount }: 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                     {/* Baadmay: purple pill with price + "with Baadmay" */}
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <div style={{ background: '#690ff5', borderRadius: 3, padding: 4, display: 'flex', alignItems: 'center' }}>
-                        <span style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.98)', lineHeight: '10px', whiteSpace: 'nowrap', fontVariantNumeric: 'lining-nums proportional-nums' }}>
+                      <div style={{ background: '#690ff5', borderRadius: 3, padding: 3, display: 'flex', alignItems: 'center' }}>
+                        <span style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.98)', lineHeight: '10px', whiteSpace: 'nowrap', fontFamily: OUT_FONT, fontVariantNumeric: 'lining-nums proportional-nums' }}>
                           {bnplBaadmay(p.price)}
                         </span>
                       </div>
-                      <span style={{ fontSize: 10, fontWeight: 400, color: 'rgba(0,0,0,0.86)', paddingLeft: 4, lineHeight: '10px', whiteSpace: 'nowrap' }}>
+                      <span style={{ fontSize: 8, fontWeight: 400, color: '#202020', paddingLeft: 4, lineHeight: '10px', whiteSpace: 'nowrap', fontFamily: OUT_FONT, textTransform: 'uppercase' as const, letterSpacing: '0.03em' }}>
                         with Baadmay
                       </span>
                     </div>
                     {/* Yango: pill badge with pacman + price */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                       <div style={{
-                        display: 'flex', alignItems: 'center', height: 18,
+                        display: 'flex', alignItems: 'center', height: 16,
                         background: '#FF0000',
                         borderRadius: '9px 3px 3px 9px',
                         overflow: 'hidden',
-                        paddingLeft: 2,
+                        paddingLeft: 3,
                       }}>
-                        <img src="/checkout/PacmanIcon.png" alt="" style={{ width: 14, height: 14, display: 'block', flexShrink: 0 }} />
-                        <span style={{ fontSize: 10, fontWeight: 700, color: '#fff', lineHeight: '10px', whiteSpace: 'nowrap', padding: '0 4px 0 2px', fontVariantNumeric: 'lining-nums proportional-nums' }}>
+                        <img src="/checkout/YangoBadgeIcon.svg" alt="" style={{ width: 10, height: 10, display: 'block', flexShrink: 0 }} />
+                        <span style={{ fontSize: 10, fontWeight: 700, color: '#fff', lineHeight: '10px', whiteSpace: 'nowrap', padding: '0 4px 0 2px', fontFamily: OUT_FONT, fontVariantNumeric: 'lining-nums proportional-nums' }}>
                           {bnplYango(p.price)}
                         </span>
                       </div>
-                      <span style={{ fontSize: 10, fontWeight: 400, color: 'rgba(0,0,0,0.86)', lineHeight: '10px', whiteSpace: 'nowrap' }}>
+                      <span style={{ fontSize: 8, fontWeight: 400, color: '#202020', lineHeight: '10px', whiteSpace: 'nowrap', fontFamily: OUT_FONT, textTransform: 'uppercase' as const, letterSpacing: '0.03em' }}>
                         with Yango
                       </span>
                     </div>

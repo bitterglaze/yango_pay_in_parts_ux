@@ -119,7 +119,7 @@ export default function YangoCheckoutScreen({ goTo, goBack, selectedProductId, c
 
   // Dynamic shipping + total
   const shipping = shippingMethod === 'fast' ? 800 : 500
-  const pnpFee = Math.floor((product.price + shipping) * 0.03)
+  const pnpFee = Math.floor((product.price + shipping) * 0.15)
   const grandTotal = product.price + shipping + pnpFee
   const perPart = Math.round(grandTotal / 4)
 
@@ -474,7 +474,7 @@ const CONFIDENCE_ITEMS = [
   {
     icon: '/checkout/Wallet Sber Tin Rotated.png',
     title: 'Make first payment',
-    sub: "Full refund if your order is cancelled or returned",
+    sub: "Get a full refund if the order is cancelled",
   },
   {
     icon: '/checkout/Box Split.png',

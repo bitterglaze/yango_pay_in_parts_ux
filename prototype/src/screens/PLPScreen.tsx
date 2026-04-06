@@ -78,7 +78,7 @@ export default function PLPScreen({ goTo, goBack, goToProduct, cartCount }: NavP
               {/* Info */}
               <div style={{ padding: '7px 6px 12px' }}>
                 <div style={{
-                  fontSize: 10, fontWeight: 600, letterSpacing: '0.04em',
+                  fontSize: 10, fontWeight: 700, letterSpacing: '0.04em',
                   color: OUT_BLACK, lineHeight: 1.3, marginBottom: 1,
                 }}>
                   {p.name}
@@ -99,14 +99,14 @@ export default function PLPScreen({ goTo, goBack, goToProduct, cartCount }: NavP
                       background: '#FF0000',
                       borderRadius: '9px 3px 3px 9px',
                       overflow: 'hidden',
-                      paddingLeft: 2,
+                      paddingLeft: 3,
                     }}>
-                      <img src="/checkout/PacmanIcon.png" alt="" style={{ width: 14, height: 14, display: 'block', flexShrink: 0 }} />
-                      <span style={{ fontSize: 9, fontWeight: 700, color: '#fff', lineHeight: '9px', whiteSpace: 'nowrap', padding: '0 4px 0 2px', fontVariantNumeric: 'lining-nums proportional-nums' }}>
+                      <img src="/checkout/YangoBadgeIcon.svg" alt="" style={{ width: 10, height: 10, display: 'block', flexShrink: 0 }} />
+                      <span style={{ fontSize: 9, fontWeight: 500, color: '#fff', lineHeight: '9px', whiteSpace: 'nowrap', padding: '0 4px 0 2px', fontFamily: OUT_FONT, fontVariantNumeric: 'lining-nums proportional-nums' }}>
                         {bnplYango(p.price)}
                       </span>
                     </div>
-                    <span style={{ fontSize: 9, color: OUT_GRAY, whiteSpace: 'nowrap' }}>with Yango</span>
+                    <span style={{ fontSize: 9, color: OUT_GRAY, whiteSpace: 'nowrap', fontFamily: OUT_FONT }}>with Yango</span>
                   </div>
                 </div>
 

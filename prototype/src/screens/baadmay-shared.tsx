@@ -29,7 +29,7 @@ export function BaadmayBadge({ installment }: { installment: string }) {
           letterSpacing: -0.2,
         }}>baadmay</span>
       </div>
-      <span style={{ fontSize: 9, color: BAADMAY_TEXT_SECONDARY }}>3× {installment}</span>
+      <span style={{ fontSize: 9, color: BAADMAY_TEXT_SECONDARY, fontFamily: '"Neue Haas Grotesk Display Pro", -apple-system, "system-ui", Arial, sans-serif' }}>3× {installment}</span>
     </div>
   )
 }

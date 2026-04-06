@@ -135,7 +135,7 @@ export default function CartScreen({ goTo, goBack, goToProduct, selectedProductI
       </div>
 
       {showModal && (
-        <BuyNowModal price={totalPrice + 500} onClose={() => setShowModal(false)} onSplit={() => { setShowModal(false); goTo('yango-checkout') }} />
+        <BuyNowModal price={totalPrice} onClose={() => setShowModal(false)} onSplit={() => { setShowModal(false); goTo('yango-checkout') }} />
       )}
     </div>
   )
