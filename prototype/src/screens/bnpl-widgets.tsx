@@ -15,7 +15,7 @@ export function BaadmayWidget({ price, size = 'sm' }: { price: number; size?: 's
       padding: isLg ? '3px 0' : '2px 0',
     }}>
       <img src="/checkout/baadmay-logo.svg" alt="baadmay"
-        style={{ height: logoH, display: 'block', flexShrink: 0, objectFit: 'contain' }} />
+        style={{ height: logoH, width: Math.round(logoH * 116 / 36), display: 'block', flexShrink: 0, objectFit: 'contain' }} />
       <span style={{ fontSize, color: OUT_BLACK, fontFamily: OUT_FONT, fontStyle: 'normal' }}>
         Pay in 3 Installments of{' '}
         <span style={{ fontWeight: 700, color: '#6016EB' }}>{installment}</span>
