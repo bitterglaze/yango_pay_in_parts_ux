@@ -67,12 +67,13 @@ export function BuyNowModal({
         }}>
           <img src="/checkout/YangoMainLogo.svg" alt="Yango" style={{ height: 22 }} />
           <button onClick={onClose} style={{
-            position: 'absolute', right: 8, top: 4,
+            position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)',
             width: 40, height: 40, background: 'none', border: 'none', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 8,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0,
           }}>
-            {/* #2 — Close icon from Elements.svg */}
-            <img src="/checkout/CloseBtn.svg" alt="Close" style={{ width: 24, height: 24 }} />
+            <div style={{ width: 24, height: 24, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <img src="/checkout/Close.svg" alt="Close" style={{ width: 24, height: 24, display: 'block' }} />
+            </div>
           </button>
         </div>
 
@@ -82,7 +83,7 @@ export function BuyNowModal({
           {/* Price + merchant — #1 "Outfitters" = Text Icon / Secondary */}
           <div style={{ textAlign: 'center', padding: '12px 20px 20px' }}>
             <p style={{ margin: 0, fontFamily: FONT_FAMILY, fontSize: 32, fontWeight: 500, lineHeight: '34px', letterSpacing: -0.5, color: 'rgba(0,0,0,0.86)', ...NUM }}>
-              Rs. {price.toLocaleString('en-PK')}
+              Rs.{price.toLocaleString('en-PK')}
             </p>
             <p style={{ margin: '4px 0 0', fontFamily: FONT_FAMILY, fontSize: 14, fontWeight: 400, lineHeight: '18px', color: 'rgba(0,0,0,0.5)' }}>
               Outfitters

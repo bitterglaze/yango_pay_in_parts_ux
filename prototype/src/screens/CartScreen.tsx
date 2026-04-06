@@ -52,8 +52,8 @@ export default function CartScreen({ goTo, goBack, goToProduct, selectedProductI
                     </div>
                     <div style={{ fontSize: 12, color: OUT_GRAY, marginBottom: 2, fontFamily: OUT_FONT }}>Black / M / SS-26</div>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginTop: 12 }}>
-                    <div style={{ fontSize: 13, color: OUT_GRAY, fontFamily: OUT_FONT, marginRight: 8 }}>{qty}x</div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 12 }}>
+                    <div style={{ fontSize: 13, color: OUT_GRAY, fontFamily: OUT_FONT }}>{qty}x</div>
                     <div style={{ fontSize: 14, fontWeight: 700, color: OUT_BLACK, fontFamily: OUT_FONT }}>{formatPrice(totalPrice)}</div>
                   </div>
                 </div>

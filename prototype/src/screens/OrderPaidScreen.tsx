@@ -25,7 +25,7 @@ function toTitleCase(str: string) {
 }
 
 function fmtRs(n: number) {
-  return `Rs. ${n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}`
+  return `Rs.${n.toLocaleString('en-PK')}`
 }
 
 function addDays(baseDate: Date, days: number) {

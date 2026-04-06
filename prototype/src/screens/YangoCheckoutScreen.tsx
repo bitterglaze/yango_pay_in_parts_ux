@@ -171,17 +171,20 @@ export default function YangoCheckoutScreen({ goTo, goBack, selectedProductId }:
           ...NUM_VARIANT,
         }}>Outfitters</p>
 
-        {/* Close (×) button — Trail, right side */}
+        {/* Close (×) button — Trail, right side: 20×20 icon → 24×24 container → 52w×40h block */}
         <button
           onClick={goBack}
           style={{
             marginLeft: 'auto', flexShrink: 0,
+            width: 52, height: 40,
+            paddingLeft: 8, paddingRight: 20,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            paddingLeft: 8, paddingRight: 20, height: '100%',
             background: 'none', border: 'none', cursor: 'pointer',
           }}
         >
-          <img src={imgCrossRoundFill} alt="Close" style={{ width: 24, height: 24, display: 'block' }} />
+          <div style={{ width: 24, height: 24, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <img src="/checkout/CrossRoundFill.svg" alt="Close" style={{ width: 20, height: 20, display: 'block' }} />
+          </div>
         </button>
       </div>
 

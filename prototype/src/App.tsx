@@ -154,30 +154,38 @@ export default function App() {
   const idx = SCREEN_ORDER.indexOf(currentScreen)
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
-      {/* Progress indicator */}
-      <div style={{ display: 'flex', gap: 5 }}>
-        {SCREEN_ORDER.map((s, i) => (
-          <div key={s} style={{
-            width: i === idx ? 18 : 6,
-            height: 6,
-            borderRadius: 3,
-            background: i === idx ? '#fff' : 'rgba(255,255,255,0.3)',
-            transition: 'all 300ms ease',
-          }} />
-        ))}
-      </div>
+    <>
+      <style>{`
+        @keyframes screenFadeIn  { from { opacity: 0 } to { opacity: 1 } }
+        @keyframes screenFadeOut { from { opacity: 1 } to { opacity: 0 } }
+        @keyframes sheetSlideUp  { from { transform: translateY(100%) } to { transform: translateY(0) } }
+        @keyframes sheetSlideDown { from { transform: translateY(0) } to { transform: translateY(100%) } }
+        @keyframes spinArc { to { transform: rotate(360deg) } }
 
-      {/* Phone frame */}
-      <div style={{
-        width: 375,
-        height: 812,
-        borderRadius: 40,
-        overflow: 'hidden',
-        position: 'relative',
-        boxShadow: '0 40px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.1)',
-        background: '#fff',
-      }}>
+        /* Desktop: fixed mobile viewport centered */
+        @media (min-width: 481px) {
+          html, body { background: #fff !important; }
+          #root {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            min-height: 100vh !important;
+          }
+          .mobile-viewport {
+            width: 390px !important;
+            height: 100vh !important;
+            overflow: hidden;
+          }
+        }
+        /* Mobile: full width */
+        @media (max-width: 480px) {
+          .mobile-viewport {
+            width: 100% !important;
+            height: 100vh !important;
+          }
+        }
+      `}</style>
+      <div className="mobile-viewport" style={{ position: 'relative', overflow: 'hidden', background: '#fff' }}>
         {/* Exit screen — fades out */}
         {prevScreen && (
           <div key={`exit-${prevScreen}`} style={{
@@ -195,19 +203,7 @@ export default function App() {
         }}>
           {screenNode(currentScreen)}
         </div>
-
-        <style>{`
-          @keyframes screenFadeIn  { from { opacity: 0 } to { opacity: 1 } }
-          @keyframes screenFadeOut { from { opacity: 1 } to { opacity: 0 } }
-          @keyframes sheetSlideUp  { from { transform: translateY(100%) } to { transform: translateY(0) } }
-          @keyframes sheetSlideDown { from { transform: translateY(0) } to { transform: translateY(100%) } }
-          @keyframes spinArc { to { transform: rotate(360deg) } }
-        `}</style>
       </div>
-
-      <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, letterSpacing: '0.05em' }}>
-        {idx + 1} / {SCREEN_ORDER.length} — tap elements to navigate
-      </div>
-    </div>
+    </>
   )
 }

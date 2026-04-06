@@ -8,7 +8,7 @@ export const OUT_BG = '#f5f5f5'
 export const OUT_FONT = '"Neue Haas Grotesk Display Pro", -apple-system, "system-ui", Arial, sans-serif'
 
 // Additional merchant tokens
-export const CHECKOUT_BLUE = '#4B6FD4'
+export const CHECKOUT_BLUE = '#205BD1'
 export const LINK_BLUE = '#0066cc'
 export const WARNING_BG = '#fffbf0'
 export const WARNING_BORDER = '#f5c842'
@@ -398,7 +398,7 @@ export const PRODUCTS: Product[] = [
 ]
 
 export function formatPrice(pkr: number): string {
-  return `PKR ${pkr.toLocaleString('en-PK')}`
+  return `Rs.${pkr.toLocaleString('en-PK')}`
 }
 
 export function bnplYango(price: number): string {

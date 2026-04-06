@@ -37,7 +37,7 @@ export function BaadmayBadge({ installment }: { installment: string }) {
 // Full block for PDP — matches outfitters.com.pk layout
 export function BaadmayBlock({ price }: { price: number }) {
   const installment = Math.round(price / 3)
-  const formatted = `Rs. ${installment.toLocaleString('en-PK')}`
+  const formatted = `Rs.${installment.toLocaleString('en-PK')}`
   return (
     <div style={{
       display: 'flex',
@@ -80,7 +80,7 @@ export function BaadmayCheckoutOption({
   price: number
 }) {
   const installment = Math.round(price / 3)
-  const formatted = `Rs. ${installment.toLocaleString('en-PK')}`
+  const formatted = `Rs.${installment.toLocaleString('en-PK')}`
   return (
     <div
       onClick={onSelect}

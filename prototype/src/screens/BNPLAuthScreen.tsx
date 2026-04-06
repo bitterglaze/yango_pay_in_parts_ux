@@ -3,11 +3,15 @@ import { YangoHeader, SafeAreaBottom, TEXT_PRIMARY, TEXT_SECONDARY, FILL_DEFAULT
 import { BACKGROUND, TEXT_INVERTED, RADIUS_LG, RADIUS_XL, GREEN_100, FONT_SIZE_BASE, FONT_SIZE_2XL } from './yango-tokens'
 import { PRODUCTS } from './merchant-shared'
 
-// Figma 44:20155 — Screen / Split Auth
-// Assets from get_design_context
-const ASSET_SPLIT_ICON = 'https://www.figma.com/api/mcp/asset/0550ae03-60b6-4212-b235-d795cd961e7d'
+// Same assets as PaymentPlanScreen for consistency
+const ASSET_SPLIT_ICON = '/checkout/Watermelon.png'
+const ASSET_RECT_MASK  = 'https://www.figma.com/api/mcp/asset/d44285ac-8cdf-42e7-8aa0-ed5118ee266e'
 
 const NUM_VARIANT: React.CSSProperties = { fontVariantNumeric: 'lining-nums proportional-nums' }
+
+function fmtRs(n: number): string {
+  return `Rs.${n.toLocaleString('en-PK')}`
+}
 
 export default function BNPLAuthScreen({ goTo, goBack, selectedProductId }: NavProps) {
   const product = PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0]
@@ -22,7 +26,7 @@ export default function BNPLAuthScreen({ goTo, goBack, selectedProductId }: NavP
           fontSize: 32, fontWeight: 500, letterSpacing: -0.5, lineHeight: '34px',
           color: TEXT_PRIMARY, ...NUM_VARIANT,
         }}>
-          Rs.{product.price.toLocaleString('en-PK')}
+          {fmtRs(product.price)}
         </div>
         <div style={{
           fontSize: FONT_SIZE_BASE, color: TEXT_SECONDARY, marginTop: 4, lineHeight: '18px',
@@ -38,7 +42,7 @@ export default function BNPLAuthScreen({ goTo, goBack, selectedProductId }: NavP
         padding: '8px 24px 16px',
         display: 'flex', flexDirection: 'column', gap: 8,
       }}>
-        {/* Split promo card — FILL_DEFAULT bg, GREEN_100 gradient mask at top */}
+        {/* Split promo card — same gradient as PaymentPlanScreen */}
         <div style={{
           background: FILL_DEFAULT,
           borderRadius: RADIUS_XL,
@@ -50,13 +54,16 @@ export default function BNPLAuthScreen({ goTo, goBack, selectedProductId }: NavP
           gap: 32,
           alignItems: 'center',
         }}>
-          {/* GREEN_100 gradient mask at top (100px) */}
+          {/* Masked green gradient at top — identical to PaymentPlanScreen */}
           <div style={{
             position: 'absolute',
             top: 0, left: 0, right: 0, height: 100,
             background: `linear-gradient(180deg, ${GREEN_100} 0%, transparent 100%)`,
+            maskImage: `url('${ASSET_RECT_MASK}')`,
+            maskSize: '327px 100px',
+            maskRepeat: 'no-repeat',
             pointerEvents: 'none',
-          }} />
+          } as React.CSSProperties} />
 
           {/* Content: icon + title + subtitle */}
           <div style={{
@@ -65,9 +72,9 @@ export default function BNPLAuthScreen({ goTo, goBack, selectedProductId }: NavP
             gap: 12, alignItems: 'center',
             width: '100%',
           }}>
-            {/* Split icon 44×44, rounded 32 */}
+            {/* Split icon — same as PaymentPlanScreen */}
             <div style={{ width: 44, height: 44, borderRadius: 32, overflow: 'hidden', flexShrink: 0 }}>
-              <img src={ASSET_SPLIT_ICON} alt="Pay in parts" style={{ width: '100%', height: '100%' }} />
+              <img src={ASSET_SPLIT_ICON} alt="Pay in parts" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
 
             {/* Headline + subtitle */}
@@ -87,7 +94,7 @@ export default function BNPLAuthScreen({ goTo, goBack, selectedProductId }: NavP
             </div>
           </div>
 
-          {/* CTA button inside card — Figma: YANGO_RED #ff4930, h56, radius 16 */}
+          {/* CTA button inside card */}
           <div style={{ width: '100%', position: 'relative' }}>
             <button
               onClick={() => goTo('otp-empty')}
@@ -110,7 +117,7 @@ export default function BNPLAuthScreen({ goTo, goBack, selectedProductId }: NavP
           </div>
         </div>
 
-        {/* Disclaimer — C3 11px, secondary */}
+        {/* Disclaimer */}
         <div style={{
           fontSize: 11, color: TEXT_SECONDARY,
           lineHeight: '12px', textAlign: 'center', ...NUM_VARIANT,

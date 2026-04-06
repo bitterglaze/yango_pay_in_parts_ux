@@ -93,18 +93,12 @@
 
 body {
   margin: 0;
-  background: #111;
+  background: #fff;
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-family: 'YS Text', -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
 }
 
 #root {
   width: 100%;
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
