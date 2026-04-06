@@ -209,20 +209,18 @@ export default function App() {
         }
       `}</style>
       <div className="mobile-viewport" style={{ position: 'relative', overflow: 'hidden', background: '#fff' }}>
-        {/* Exit screen — fades out */}
+        {/* Exit screen — stays underneath, no animation */}
         {prevScreen && (
           <div key={`exit-${prevScreen}`} style={{
             position: 'absolute', inset: 0, zIndex: 1,
-            animation: 'screenFadeOut 300ms ease forwards',
           }}>
             {screenNode(prevScreen)}
           </div>
         )}
 
-        {/* Enter screen — fades in */}
+        {/* Enter screen — appears on top instantly */}
         <div key={`enter-${currentScreen}-${animating}`} style={{
           position: 'absolute', inset: 0, zIndex: 2,
-          animation: animating ? 'screenFadeIn 300ms ease forwards' : 'none',
         }}>
           {screenNode(currentScreen)}
         </div>
