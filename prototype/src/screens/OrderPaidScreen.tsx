@@ -137,7 +137,7 @@ export default function OrderPaidScreen({ goTo, selectedProductId, selectedPayme
             {/* Top row: text + icon */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
               {/* Text block */}
-              <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <div onClick={() => window.open('https://apps.apple.com/us/app/yango-taxi-and-delivery/id1437157286?l=ru', '_blank')} style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2, cursor: 'pointer' }}>
                 {/* Title — must fit on one line */}
                 <div style={{
                   fontSize: FONT_SIZE_LG, fontWeight: 500, lineHeight: '20px',
