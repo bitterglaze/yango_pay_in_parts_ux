@@ -51,7 +51,7 @@ export default function CartScreen({ goTo, goBack, goToProduct, cart, removeFrom
                 <span style={{ fontSize: 8, fontWeight: 400, letterSpacing: '0.05em', color: '#202020', fontFamily: OUT_FONT }}>TOTAL</span>
               </div>
 
-              {cartItems.map((ci, idx) => {
+              {cartItems.map((ci) => {
                 const item = ci.product!
                 return (
                   <div key={item.id}>
