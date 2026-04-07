@@ -317,7 +317,7 @@ export default function YangoCheckoutScreen({ goTo, goBack, selectedProductId, c
                 style={{ width: 40, height: 40, display: 'block', flexShrink: 0 }}
               />
               <span style={{ ...T_B2TM, color: DARK_TEXT, ...NUM_VARIANT }}>
-                4 × {fmtRs(perPart)}
+                {fmtRs(perPart)} × 4 payments
               </span>
             </div>
 
@@ -348,11 +348,11 @@ export default function YangoCheckoutScreen({ goTo, goBack, selectedProductId, c
             {/* Info note */}
             <div style={{
               display: 'flex', alignItems: 'center', gap: 4,
-              padding: '10px 14px 14px',
+              padding: '16px 14px 14px',
             }}>
               <InfoIcon />
               <span style={{ ...T_CAP1R, color: TEXT_SECONDARY }}>
-                Based on initial assessment
+                Final plan available after verification
               </span>
             </div>
           </Card>

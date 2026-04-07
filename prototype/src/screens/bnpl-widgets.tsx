@@ -48,10 +48,10 @@ export function YangoWidget({ price, size = 'sm', onBuy }: { price: number; size
       </div>
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 1, fontFamily: FONT_FAMILY }}>
         <div style={{ fontSize: titleSize, fontWeight: 700, lineHeight: titleLH, color: 'rgba(0,0,0,0.86)', ...NUM }}>
-          Now {perPart}
+          {perPart} × 4 payments
         </div>
-        <div style={{ fontSize: subSize, fontWeight: 400, lineHeight: subLH, color: 'rgba(0,0,0,0.86)', ...NUM }}>
-          Later 3 × {perPart}
+        <div style={{ fontSize: subSize, fontWeight: 400, lineHeight: subLH, color: 'rgba(0,0,0,0.5)', ...NUM }}>
+          Every 2 weeks
         </div>
       </div>
       <button onClick={onBuy} style={{

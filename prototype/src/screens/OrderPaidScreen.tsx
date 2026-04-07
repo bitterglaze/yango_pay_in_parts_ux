@@ -32,7 +32,11 @@ function addDays(baseDate: Date, days: number) {
 
 export default function OrderPaidScreen({ goTo, selectedProductId, selectedPaymentMethod }: NavProps) {
   const product = PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0]
-  const perPart = Math.round(product.price / 4)
+  const DELIVERY = 500
+  const CART_TOTAL = product.price + DELIVERY
+  const PNP_FEE = Math.floor(CART_TOTAL * 0.15)
+  const GRAND_TOTAL = CART_TOTAL + PNP_FEE
+  const perPart = Math.round(GRAND_TOTAL / 4)
   const today = new Date()
 
   const chartSlots = [
@@ -203,8 +207,8 @@ export default function OrderPaidScreen({ goTo, selectedProductId, selectedPayme
               How was the process?
             </div>
             <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexShrink: 0 }}>
-              <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, cursor: 'pointer', filter: 'grayscale(1)' }}>😔</div>
-              <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, cursor: 'pointer', filter: 'grayscale(1)' }}>😊</div>
+              <img src="/checkout/emoji-sad.png" alt="sad" style={{ width: 40, height: 40, cursor: 'pointer' }} />
+              <img src="/checkout/emoji-happy.png" alt="happy" style={{ width: 40, height: 40, cursor: 'pointer' }} />
             </div>
           </div>
 

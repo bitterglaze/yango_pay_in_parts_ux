@@ -30,8 +30,14 @@ export function BuyNowModal({
 }) {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
   const [isFullScreen, setIsFullScreen] = useState(false)
+  const [closing, setClosing] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
   const touchStartY = useRef(0)
+
+  const handleClose = () => {
+    setClosing(true)
+    setTimeout(onClose, 360)
+  }
 
   const handleTouchStart = (e: React.TouchEvent) => { touchStartY.current = e.touches[0].clientY }
   const handleTouchEnd = (e: React.TouchEvent) => {
@@ -39,23 +45,26 @@ export function BuyNowModal({
     const scrollEl = scrollRef.current
     if (scrollEl && scrollEl.scrollTop > 0) return
     if (diff > 60) setIsFullScreen(true)
-    if (diff < -60) { if (isFullScreen) setIsFullScreen(false); else onClose() }
+    if (diff < -60) { if (isFullScreen) setIsFullScreen(false); else handleClose() }
   }
 
   return (
     <div style={{ position: 'absolute', inset: 0, zIndex: 50 }}>
-      <style>{`@keyframes sheetSlideUp { from { transform: translateY(100%) } to { transform: translateY(0) } }`}</style>
-      <div onClick={onClose} style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)' }} />
+      <style>{`
+        @keyframes sheetSlideUp { from { transform: translateY(100%) } to { transform: translateY(0) } }
+        @keyframes sheetSlideDown { from { transform: translateY(0) } to { transform: translateY(100%) } }
+      `}</style>
+      <div onClick={handleClose} style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)', opacity: closing ? 0 : 1, transition: 'opacity 350ms ease' }} />
 
       <div
         onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}
         style={{
-          position: 'absolute', top: isFullScreen ? 0 : 94, left: 0, right: 0, bottom: 0,
+          position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
           background: '#fff',
-          borderTopLeftRadius: isFullScreen ? 0 : 24, borderTopRightRadius: isFullScreen ? 0 : 24,
+          borderTopLeftRadius: 16, borderTopRightRadius: 16,
           overflow: 'hidden', display: 'flex', flexDirection: 'column',
           boxShadow: '0px 7px 23px 0px rgba(33,34,36,0.17)',
-          animation: 'sheetSlideUp 340ms cubic-bezier(0.32,0.72,0,1) both',
+          animation: closing ? 'sheetSlideDown 300ms ease forwards' : 'sheetSlideUp 340ms cubic-bezier(0.32,0.72,0,1) both',
           transition: 'top 300ms ease, border-radius 300ms ease',
         }}
       >
@@ -71,7 +80,7 @@ export function BuyNowModal({
           position: 'sticky', top: 0, zIndex: 10, background: '#fff',
         }}>
           <img src="/checkout/YangoMainLogo.svg" alt="Yango" style={{ height: 22 }} />
-          <button onClick={onClose} style={{
+          <button onClick={handleClose} style={{
             position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)',
             width: 40, height: 40, background: 'none', border: 'none', cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0,
@@ -98,7 +107,7 @@ export function BuyNowModal({
           {/* #3 — "Pay overtime" block: sides 24px, top 32px, bottom 20px */}
           <div style={{ padding: '32px 24px 20px', textAlign: 'center' }}>
             <p style={{ margin: 0, fontFamily: FONT_FAMILY, fontSize: 26, fontWeight: 500, lineHeight: '28px', letterSpacing: -0.5, color: 'rgba(0,0,0,0.86)' }}>
-              Pay overtime for your order with{' '}
+              Shop now, pay later with{' '}
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, verticalAlign: 'middle' }}>
                 <img src="/checkout/PacmanIcon.png" alt="" style={{ width: 24, height: 24 }} />
                 <span style={{ fontFamily: FONT_FAMILY, fontSize: 26, fontWeight: 500, color: '#2C9E56' }}>Pay in parts</span>
@@ -118,12 +127,15 @@ export function BuyNowModal({
             </div>
             {/* Labels — 3px gap from bars, then lines with 1px gap */}
             <div style={{ display: 'flex', gap: 6 }}>
-              {[
-                { top: 'now', bottom: 'Part 1' },
-                { top: 'In 2 weeks', bottom: 'Part 2' },
-                { top: 'In 4 weeks', bottom: 'Part 3' },
-                { top: 'In 6 weeks', bottom: 'Part 4' },
-              ].map((slot, i) => (
+              {(() => {
+                const perPart = `Rs.${Math.round(price / 4).toLocaleString('en-PK')}`
+                return [
+                  { top: 'now', bottom: perPart },
+                  { top: 'in 2 weeks', bottom: perPart },
+                  { top: 'in 4 weeks', bottom: perPart },
+                  { top: 'in 6 weeks', bottom: perPart },
+                ]
+              })().map((slot, i) => (
                 <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 1 }}>
                   {/* Line 1: caption C1, 13px, regular, black */}
                   <span style={{
@@ -142,6 +154,13 @@ export function BuyNowModal({
                   </span>
                 </div>
               ))}
+            </div>
+            {/* Info note */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, marginTop: 12 }}>
+              <img src="/checkout/InfoIcon.svg" alt="" style={{ width: 12, height: 12, display: 'block', flexShrink: 0 }} />
+              <span style={{ fontFamily: FONT_FAMILY, fontSize: 13, fontWeight: 400, color: 'rgba(0,0,0,0.3)', lineHeight: '14px' }}>
+                Final plan available after verification
+              </span>
             </div>
           </div>
 
