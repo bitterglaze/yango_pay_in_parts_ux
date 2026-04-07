@@ -30,10 +30,14 @@ function addDays(baseDate: Date, days: number) {
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toLowerCase()
 }
 
-export default function OrderPaidScreen({ goTo, selectedProductId, selectedPaymentMethod }: NavProps) {
-  const product = PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0]
+export default function OrderPaidScreen({ goTo, selectedProductId, selectedPaymentMethod, cart }: NavProps) {
+  const cartItems = cart.length > 0
+    ? cart.map(ci => ({ ...ci, product: PRODUCTS.find(p => p.id === ci.productId)! })).filter(ci => ci.product)
+    : [{ productId: selectedProductId, qty: 1, product: PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0] }]
+
+  const productsTotal = cartItems.reduce((sum, ci) => sum + ci.product.price * ci.qty, 0)
   const DELIVERY = 500
-  const CART_TOTAL = product.price + DELIVERY
+  const CART_TOTAL = productsTotal + DELIVERY
   const PNP_FEE = Math.floor(CART_TOTAL * 0.15)
   const GRAND_TOTAL = CART_TOTAL + PNP_FEE
   const perPart = Math.round(GRAND_TOTAL / 4)
@@ -261,23 +265,25 @@ export default function OrderPaidScreen({ goTo, selectedProductId, selectedPayme
               </div>
             </div>
 
-            {/* Order line: dynamic product name + price */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <p style={{ flex: 1, margin: 0, fontSize: FONT_SIZE_BASE, lineHeight: '18px', color: TEXT_PRIMARY, ...NUM_VARIANT }}>
-                {toTitleCase(product.name)}
-              </p>
-              <span style={{
-                fontSize: 13, lineHeight: '16px', color: 'rgba(0,0,0,0.3)',
-                textAlign: 'right', flexShrink: 0, width: 24, ...NUM_VARIANT,
-              }}>
-                ×1
-              </span>
-              <div style={{ flexShrink: 0, display: 'flex', justifyContent: 'flex-end' }}>
-                <span style={{ fontSize: 14, fontWeight: 500, lineHeight: '18px', color: TEXT_PRIMARY, whiteSpace: 'nowrap', ...NUM_VARIANT }}>
-                  {fmtRs(product.price)}
+            {/* Order lines: all cart items */}
+            {cartItems.map((ci, idx) => (
+              <div key={ci.productId} style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: idx > 0 ? 8 : 0 }}>
+                <p style={{ flex: 1, margin: 0, fontSize: FONT_SIZE_BASE, lineHeight: '18px', color: TEXT_PRIMARY, ...NUM_VARIANT }}>
+                  {toTitleCase(ci.product.name)}
+                </p>
+                <span style={{
+                  fontSize: 13, lineHeight: '16px', color: 'rgba(0,0,0,0.3)',
+                  textAlign: 'right', flexShrink: 0, width: 24, ...NUM_VARIANT,
+                }}>
+                  ×{ci.qty}
                 </span>
+                <div style={{ flexShrink: 0, display: 'flex', justifyContent: 'flex-end' }}>
+                  <span style={{ fontSize: 14, fontWeight: 500, lineHeight: '18px', color: TEXT_PRIMARY, whiteSpace: 'nowrap', ...NUM_VARIANT }}>
+                    {fmtRs(ci.product.price * ci.qty)}
+                  </span>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
 
         </div>

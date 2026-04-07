@@ -13,10 +13,13 @@ function fmtRs(n: number): string {
   return `Rs.${n.toLocaleString('en-PK')}`
 }
 
-export default function BNPLAuthScreen({ goTo, goBack, selectedProductId, checkoutData }: NavProps) {
-  const product = PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0]
+export default function BNPLAuthScreen({ goTo, goBack, selectedProductId, checkoutData, cart }: NavProps) {
+  const cartItems = cart.length > 0
+    ? cart.map(ci => ({ ...ci, product: PRODUCTS.find(p => p.id === ci.productId)! })).filter(ci => ci.product)
+    : [{ productId: selectedProductId, qty: 1, product: PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0] }]
+  const productsTotal = cartItems.reduce((sum, ci) => sum + ci.product.price * ci.qty, 0)
   const shipping = checkoutData.shippingMethod === 'fast' ? 800 : 500
-  const displayPrice = product.price + shipping
+  const displayPrice = productsTotal + shipping
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: BACKGROUND }}>
       {/* Header / Checkout — DI + navbar */}

@@ -32,10 +32,13 @@ function addWeeks(w: number) {
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toLowerCase()
 }
 
-export default function ConfirmPlanScreen({ goTo, goBack, selectedProductId, selectedPaymentMethod }: NavProps) {
-  const product = PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0]
+export default function ConfirmPlanScreen({ goTo, goBack, selectedProductId, selectedPaymentMethod, cart }: NavProps) {
+  const cartItems = cart.length > 0
+    ? cart.map(ci => ({ ...ci, product: PRODUCTS.find(p => p.id === ci.productId)! })).filter(ci => ci.product)
+    : [{ productId: selectedProductId, qty: 1, product: PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0] }]
+  const productsTotal = cartItems.reduce((sum, ci) => sum + ci.product.price * ci.qty, 0)
   const DELIVERY = 500
-  const CART_TOTAL = product.price + DELIVERY
+  const CART_TOTAL = productsTotal + DELIVERY
   const PNP_FEE = Math.floor(CART_TOTAL * 0.15)
   const GRAND_TOTAL = CART_TOTAL + PNP_FEE
   const PER_PAYMENT = Math.round(GRAND_TOTAL / 4)

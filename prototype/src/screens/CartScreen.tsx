@@ -4,30 +4,34 @@ import { OutfittersHeader, PRODUCTS, formatPrice, OUT_BLACK, OUT_WHITE, OUT_BORD
 import { BuyNowModal } from './BuyNowModal'
 import { BaadmayWidget, YangoWidget } from './bnpl-widgets'
 
-export default function CartScreen({ goTo, goBack, goToProduct, selectedProductId, cartCount, setCartCount }: NavProps) {
+export default function CartScreen({ goTo, goBack, goToProduct, cart, removeFromCart, updateCartQty }: NavProps) {
   const [showModal, setShowModal] = useState(false)
-  const qty = cartCount > 0 ? cartCount : 1
-  const [removed, setRemoved] = useState(false)
 
-  const item = PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0]
-  const totalPrice = item.price * qty
+  const cartItems = cart
+    .map(ci => ({ ...ci, product: PRODUCTS.find(p => p.id === ci.productId) }))
+    .filter(ci => ci.product)
 
-  // #33 — 7 products for "You may also like"
-  const recommendations = PRODUCTS.filter(p => p.id !== item.id).slice(0, 7)
+  const totalPrice = cartItems.reduce((sum, ci) => sum + ci.product!.price * ci.qty, 0)
+  const totalQty = cartItems.reduce((sum, ci) => sum + ci.qty, 0)
+  const isEmpty = cartItems.length === 0
+
+  // 7 products for "You may also like", excluding cart items
+  const cartIds = new Set(cart.map(ci => ci.productId))
+  const recommendations = PRODUCTS.filter(p => !cartIds.has(p.id)).slice(0, 7)
 
   return (
     <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', height: '100%', background: OUT_WHITE, overflow: 'hidden', fontFamily: OUT_FONT }}>
-      <OutfittersHeader onBack={goBack} onCart={() => {}} cartCount={qty > 0 && !removed ? qty : 0} />
+      <OutfittersHeader onBack={goBack} onCart={() => {}} cartCount={totalQty} />
 
-      {/* #34 — Title: 16px, no counter */}
+      {/* Title */}
       <div style={{ padding: '16px 20px 12px', flexShrink: 0 }}>
-        <div style={{ fontSize: 16, fontWeight: 400, color: OUT_BLACK, fontFamily: OUT_FONT }}>
-          ADDED TO YOUR BASKET
+        <div style={{ fontSize: 30, fontWeight: 400, color: OUT_BLACK, fontFamily: OUT_FONT }}>
+          Shopping Basket
         </div>
       </div>
 
       <div style={{ flex: 1, overflowY: 'auto', padding: '0 0 16px' }}>
-        {removed ? (
+        {isEmpty ? (
           <div style={{ padding: '48px 16px', textAlign: 'center', color: OUT_GRAY }}>
             <div style={{ fontSize: 48, marginBottom: 12 }}>🛍️</div>
             <div style={{ fontSize: 16, fontWeight: 600, color: OUT_BLACK, marginBottom: 8 }}>Your bag is empty</div>
@@ -40,48 +44,98 @@ export default function CartScreen({ goTo, goBack, goToProduct, selectedProductI
         ) : (
           <>
             <div style={{ padding: '0 20px' }}>
-              {/* Cart item */}
-              <div style={{ display: 'flex', gap: 16, paddingBottom: 12 }}>
-                <div style={{ width: 100, flexShrink: 0, display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ width: 100, height: 130, overflow: 'hidden', background: OUT_BG }}>
-                    <img src={item.img} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  </div>
-                </div>
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <div>
-                      <div style={{ fontSize: 14, fontWeight: 700, color: OUT_BLACK, marginBottom: 4, fontFamily: OUT_FONT }}>
-                        {item.name.split(' ').map(w => w.charAt(0) + w.slice(1).toLowerCase()).join(' ')}
-                      </div>
-                      <div style={{ fontSize: 12, color: OUT_GRAY, fontFamily: OUT_FONT }}>Black / M / SS-26</div>
-                    </div>
-                    <button onClick={() => { setCartCount(0); setRemoved(true) }} style={{
-                      background: 'none', border: 'none', cursor: 'pointer', padding: 0, flexShrink: 0,
-                    }}>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                        <path d="M3 6H5H21" stroke={OUT_GRAY} strokeWidth="1.5" strokeLinecap="round"/>
-                        <path d="M8 6V4C8 3.44772 8.44772 3 9 3H15C15.5523 3 16 3.44772 16 4V6" stroke={OUT_GRAY} strokeWidth="1.5" strokeLinecap="round"/>
-                        <path d="M19 6L18.1 19.1C18.0432 19.6 17.6133 20 17.1 20H6.9C6.38666 20 5.95666 19.6 5.9 19.1L5 6" stroke={OUT_GRAY} strokeWidth="1.5" strokeLinecap="round"/>
-                      </svg>
-                    </button>
-                  </div>
-                  {/* Qty + price aligned to bottom of image */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                    <div style={{ fontSize: 13, color: OUT_BLACK, fontFamily: OUT_FONT }}>{qty}x</div>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: OUT_BLACK, fontFamily: OUT_FONT }}>{formatPrice(totalPrice)}</div>
-                  </div>
-                </div>
+              {/* Cart items */}
+              {/* PRODUCT / TOTAL header */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: 8, borderBottom: `1.5px solid ${OUT_BLACK}`, marginBottom: 16 }}>
+                <span style={{ fontSize: 8, fontWeight: 400, letterSpacing: '0.05em', color: '#202020', fontFamily: OUT_FONT }}>PRODUCT</span>
+                <span style={{ fontSize: 8, fontWeight: 400, letterSpacing: '0.05em', color: '#202020', fontFamily: OUT_FONT }}>TOTAL</span>
               </div>
 
-              <div style={{ height: 1, background: OUT_BORDER, marginBottom: 10 }} />
+              {cartItems.map((ci, idx) => {
+                const item = ci.product!
+                return (
+                  <div key={item.id}>
+                    <div style={{ display: 'flex', gap: 16, paddingBottom: 16 }}>
+                      {/* Product image */}
+                      <div style={{ width: 120, flexShrink: 0 }}>
+                        <div style={{ width: 120, height: 160, overflow: 'hidden', background: OUT_BG }}>
+                          <img src={item.img} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        </div>
+                      </div>
+                      {/* Product info */}
+                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                        {/* Name + total price row */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                          <div style={{ fontSize: 14, fontWeight: 700, color: OUT_BLACK, fontFamily: OUT_FONT, lineHeight: '18px' }}>
+                            {item.name.split(' ').map(w => w.charAt(0) + w.slice(1).toLowerCase()).join(' ')}
+                          </div>
+                          <div style={{ fontSize: 14, fontWeight: 700, color: OUT_BLACK, fontFamily: OUT_FONT, flexShrink: 0, marginLeft: 8 }}>
+                            PKR {(item.price * ci.qty).toLocaleString('en-PK')}
+                          </div>
+                        </div>
+                        {/* Unit price */}
+                        <div style={{ fontSize: 12, color: OUT_BLACK, fontFamily: OUT_FONT }}>
+                          PKR {item.price.toLocaleString('en-PK')}
+                        </div>
+                        {/* Details */}
+                        <div style={{ fontSize: 12, color: OUT_BLACK, fontFamily: OUT_FONT, lineHeight: '18px' }}>
+                          <div>Color: Black</div>
+                          <div>Size: M</div>
+                          <div>Season: SS-26</div>
+                        </div>
+                        {/* Counter + trash */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 8 }}>
+                          {/* Bordered counter */}
+                          <div style={{
+                            display: 'flex', alignItems: 'center',
+                            border: `1px solid ${OUT_BORDER}`, borderRadius: 0,
+                            height: 40, overflow: 'hidden',
+                          }}>
+                            <button onClick={() => updateCartQty(item.id, ci.qty - 1)} style={{
+                              width: 40, height: 40, background: 'none', border: 'none',
+                              borderRight: `1px solid ${OUT_BORDER}`,
+                              cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              fontSize: 18, color: OUT_BLACK, padding: 0, fontFamily: OUT_FONT,
+                            }}>−</button>
+                            <span style={{
+                              width: 44, textAlign: 'center', fontSize: 14, fontWeight: 700,
+                              color: OUT_BLACK, fontFamily: OUT_FONT,
+                            }}>{ci.qty}</span>
+                            <button onClick={() => updateCartQty(item.id, ci.qty + 1)} style={{
+                              width: 40, height: 40, background: 'none', border: 'none',
+                              borderLeft: `1px solid ${OUT_BORDER}`,
+                              cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              fontSize: 18, color: OUT_BLACK, padding: 0, fontFamily: OUT_FONT,
+                            }}>+</button>
+                          </div>
+                          {/* Trash icon — right-aligned */}
+                          <button onClick={() => removeFromCart(item.id)} style={{
+                            background: 'none', border: 'none', cursor: 'pointer', padding: 0, marginLeft: 'auto',
+                          }}>
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                              <path d="M3 6H5H21" stroke={OUT_BLACK} strokeWidth="1.5" strokeLinecap="round"/>
+                              <path d="M8 6V4C8 3.44772 8.44772 3 9 3H15C15.5523 3 16 3.44772 16 4V6" stroke={OUT_BLACK} strokeWidth="1.5" strokeLinecap="round"/>
+                              <path d="M19 6L18.1 19.1C18.0432 19.6 17.6133 20 17.1 20H6.9C6.38666 20 5.95666 19.6 5.9 19.1L5 6" stroke={OUT_BLACK} strokeWidth="1.5" strokeLinecap="round"/>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Divider between items */}
+                    <div style={{ height: 1, background: OUT_BORDER, marginBottom: 16 }} />
+                  </div>
+                )
+              })}
 
-              {/* Total + price as unified block, right-aligned price */}
-              <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'baseline', gap: 8, marginBottom: 6 }}>
+              {/* Spacing before total */}
+
+              {/* Total */}
+              <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'baseline', gap: 8, marginBottom: 12 }}>
                 <span style={{ fontSize: 14, fontWeight: 700, color: OUT_BLACK, fontFamily: OUT_FONT }}>Total:</span>
                 <span style={{ fontSize: 16, fontWeight: 700, color: OUT_BLACK, fontFamily: OUT_FONT }}>{formatPrice(totalPrice)}</span>
               </div>
 
-              {/* Baadmay right-aligned, then Yango full-width */}
+              {/* BNPL widgets */}
               <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 2 }}>
                 <BaadmayWidget price={totalPrice} size="lg" />
               </div>
@@ -89,7 +143,7 @@ export default function CartScreen({ goTo, goBack, goToProduct, selectedProductI
                 <YangoWidget price={totalPrice} size="lg" onBuy={() => setShowModal(true)} />
               </div>
 
-              {/* #32 — Delivery note: right-aligned, 9px */}
+              {/* Delivery note */}
               <div style={{
                 fontSize: 9, color: OUT_GRAY, textTransform: 'uppercase' as const,
                 letterSpacing: '0.03em', lineHeight: 1.5, marginTop: 10, marginBottom: 14,
@@ -105,14 +159,14 @@ export default function CartScreen({ goTo, goBack, goToProduct, selectedProductI
                 cursor: 'pointer', marginBottom: 10, fontFamily: OUT_FONT,
               }}>Check out</button>
 
-              <button onClick={() => {}} style={{
+              <button onClick={() => goBack()} style={{
                 width: '100%', height: 52, background: OUT_WHITE, color: OUT_BLACK,
                 border: `1px solid ${OUT_BLACK}`, borderRadius: 0, fontSize: 14, fontWeight: 600,
                 letterSpacing: '0.05em', cursor: 'pointer', marginBottom: 20, fontFamily: OUT_FONT,
-              }}>VIEW SHOPPING BASKET</button>
+              }}>Continue shopping</button>
             </div>
 
-            {/* #33 — You may also like: centered title 15px regular, 7 products, edge-to-edge */}
+            {/* You may also like */}
             <div style={{ paddingBottom: 32 }}>
               <div style={{
                 fontSize: 15, fontWeight: 400, color: OUT_BLACK, marginBottom: 12,

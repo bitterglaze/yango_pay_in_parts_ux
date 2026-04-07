@@ -24,10 +24,13 @@ function fmtRs(n: number): string {
 
 const NUM_VARIANT: React.CSSProperties = { fontVariantNumeric: 'lining-nums proportional-nums' }
 
-export default function PaymentPlanScreen({ goTo, goBack, selectedProductId, selectedPaymentMethod, setPaymentMethod, checkoutData }: NavProps) {
-  const product = PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0]
+export default function PaymentPlanScreen({ goTo, goBack, selectedProductId, selectedPaymentMethod, setPaymentMethod, checkoutData, cart }: NavProps) {
+  const cartItems = cart.length > 0
+    ? cart.map(ci => ({ ...ci, product: PRODUCTS.find(p => p.id === ci.productId)! })).filter(ci => ci.product)
+    : [{ productId: selectedProductId, qty: 1, product: PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0] }]
+  const productsTotal = cartItems.reduce((sum, ci) => sum + ci.product.price * ci.qty, 0)
   const DELIVERY_FEE = checkoutData.shippingMethod === 'fast' ? 800 : 500
-  const CART_TOTAL = product.price + DELIVERY_FEE
+  const CART_TOTAL = productsTotal + DELIVERY_FEE
   const PNP_FEE = Math.floor(CART_TOTAL * 0.15)
   const GRAND_TOTAL = CART_TOTAL + PNP_FEE
   const PER_PAYMENT = Math.round(GRAND_TOTAL / 4)
@@ -71,7 +74,7 @@ export default function PaymentPlanScreen({ goTo, goBack, selectedProductId, sel
             lineHeight: '34px', letterSpacing: -0.5,
             color: TEXT_PRIMARY, margin: 0, textAlign: 'center', whiteSpace: 'nowrap',
             ...NUM_VARIANT,
-          }}>{fmtRs(product.price + DELIVERY_FEE)}</p>
+          }}>{fmtRs(CART_TOTAL)}</p>
           <p style={{
             fontSize: FONT_SIZE_BASE, fontWeight: 400,
             lineHeight: '18px', color: TEXT_SECONDARY,
@@ -288,6 +291,10 @@ export default function PaymentPlanScreen({ goTo, goBack, selectedProductId, sel
               shippingMethod: 'standard',
             }}
             setCheckoutData={() => {}}
+            cart={cart}
+            setCart={() => {}}
+            removeFromCart={() => {}}
+            updateCartQty={() => {}}
             onCloseModal={() => setShowModal(false)}
             onConfirmModal={(method) => {
               setPaymentMethod(method)

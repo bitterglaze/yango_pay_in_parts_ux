@@ -16,7 +16,7 @@ function toTitleCase(str: string): string {
   return str.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')
 }
 
-export default function PDPScreen({ goTo, goBack, goToProduct, selectedProductId, cartCount, setCartCount }: NavProps) {
+export default function PDPScreen({ goTo, goBack, goToProduct, selectedProductId, cartCount, addToCart }: NavProps) {
   const product = PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0]
   const images = [product.img]
 
@@ -92,7 +92,7 @@ export default function PDPScreen({ goTo, goBack, goToProduct, selectedProductId
           )}
 
           {/* #31 — Add to Cart: text only, no icon */}
-          <button onClick={() => { setCartCount(1); goTo('cart') }} style={{
+          <button onClick={() => addToCart(selectedProductId)} style={{
             width: '100%', height: 48, background: OUT_BLACK, color: OUT_WHITE,
             border: 'none', borderRadius: 0, fontSize: 13, fontWeight: 700, letterSpacing: '0.1em',
             cursor: 'pointer', marginBottom: 16, marginTop: hasMultipleColors ? 6 : 0,

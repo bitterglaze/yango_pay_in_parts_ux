@@ -72,6 +72,11 @@ const DEFAULT_CHECKOUT: CheckoutData = {
   shippingMethod: 'standard',
 }
 
+export interface CartItem {
+  productId: number
+  qty: number
+}
+
 export interface NavProps {
   goTo: (screen: ScreenId) => void
   goBack: () => void
@@ -85,6 +90,10 @@ export interface NavProps {
   setCartCount: (n: number) => void
   checkoutData: CheckoutData
   setCheckoutData: (data: CheckoutData) => void
+  cart: CartItem[]
+  setCart: React.Dispatch<React.SetStateAction<CartItem[]>>
+  removeFromCart: (productId: number) => void
+  updateCartQty: (productId: number, qty: number) => void
 }
 
 export default function App() {
@@ -93,9 +102,11 @@ export default function App() {
   const [animating, setAnimating] = useState(false)
   const [selectedProductId, setSelectedProductId] = useState<number>(1)
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('')
-  const [cartCount, setCartCount] = useState<number>(1)
+  const [cart, setCart] = useState<CartItem[]>([])
   const [checkoutData, setCheckoutData] = useState<CheckoutData>(DEFAULT_CHECKOUT)
   const history = useRef<ScreenId[]>(['home'])
+
+  const cartCount = cart.reduce((sum, item) => sum + item.qty, 0)
 
   // Sync with browser history for real back/forward button support
   useEffect(() => {
@@ -149,12 +160,32 @@ export default function App() {
 
   const addToCart = (id: number) => {
     setSelectedProductId(id)
-    setCartCount(1)
+    setCart(prev => {
+      const existing = prev.find(item => item.productId === id)
+      if (existing) {
+        return prev.map(item => item.productId === id ? { ...item, qty: item.qty + 1 } : item)
+      }
+      return [...prev, { productId: id, qty: 1 }]
+    })
     goTo('cart')
   }
 
+  const removeFromCart = (productId: number) => {
+    setCart(prev => prev.filter(item => item.productId !== productId))
+  }
+
+  const updateCartQty = (productId: number, qty: number) => {
+    if (qty <= 0) {
+      removeFromCart(productId)
+    } else {
+      setCart(prev => prev.map(item => item.productId === productId ? { ...item, qty } : item))
+    }
+  }
+
+  const setCartCount = (_n: number) => {} // legacy, no-op
+
   const setPaymentMethod = (m: string) => setSelectedPaymentMethod(m)
-  const nav: NavProps = { goTo, goBack, currentScreen, selectedProductId, goToProduct, addToCart, selectedPaymentMethod, setPaymentMethod, cartCount, setCartCount, checkoutData, setCheckoutData }
+  const nav: NavProps = { goTo, goBack, currentScreen, selectedProductId, goToProduct, addToCart, selectedPaymentMethod, setPaymentMethod, cartCount, setCartCount, checkoutData, setCheckoutData, cart, setCart, removeFromCart, updateCartQty }
 
   const screenNode = (id: ScreenId) => {
     switch (id) {

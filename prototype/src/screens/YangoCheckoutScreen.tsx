@@ -107,9 +107,11 @@ function toTitleCase(str: string) {
   return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase())
 }
 
-export default function YangoCheckoutScreen({ goTo, goBack, selectedProductId, checkoutData, setCheckoutData }: NavProps) {
-  const product = PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0]
-  const productName = toTitleCase(product.name)
+export default function YangoCheckoutScreen({ goTo, goBack, selectedProductId, checkoutData, setCheckoutData, cart }: NavProps) {
+  const cartItems = cart.length > 0
+    ? cart.map(ci => ({ ...ci, product: PRODUCTS.find(p => p.id === ci.productId)! })).filter(ci => ci.product)
+    : [{ productId: selectedProductId, qty: 1, product: PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0] }]
+  const productsTotal = cartItems.reduce((sum, ci) => sum + ci.product.price * ci.qty, 0)
 
   const fmtRs = (n: number) => `Rs.${n.toLocaleString('en-PK')}`
 
@@ -119,8 +121,8 @@ export default function YangoCheckoutScreen({ goTo, goBack, selectedProductId, c
 
   // Dynamic shipping + total
   const shipping = shippingMethod === 'fast' ? 800 : 500
-  const pnpFee = Math.floor((product.price + shipping) * 0.15)
-  const grandTotal = product.price + shipping + pnpFee
+  const pnpFee = Math.floor((productsTotal + shipping) * 0.15)
+  const grandTotal = productsTotal + shipping + pnpFee
   const perPart = Math.round(grandTotal / 4)
 
   const addWeeks = (w: number) => {
@@ -207,7 +209,7 @@ export default function YangoCheckoutScreen({ goTo, goBack, selectedProductId, c
                 <span style={{ ...T_B2TR, color: DARK_TEXT }}>Order details</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={{ ...T_B2TR, color: DARK_TEXT }}>1 item</span>
+                <span style={{ ...T_B2TR, color: DARK_TEXT }}>{cartItems.reduce((s, c) => s + c.qty, 0)} item{cartItems.reduce((s, c) => s + c.qty, 0) > 1 ? 's' : ''}</span>
                 {orderOpen
                   ? <ChevronUpIcon color={DARK_TEXT} size={24} />
                   : <ChevronDownIcon color={DARK_TEXT} size={24} />
@@ -219,35 +221,35 @@ export default function YangoCheckoutScreen({ goTo, goBack, selectedProductId, c
           {/* Card 2: Item details (visible when expanded) */}
           {orderOpen && (
             <Card>
-              <div style={{
-                display: 'flex', gap: 16, alignItems: 'flex-start',
-                padding: '12px 16px 12px 12px',
-              }}>
-                {/* Product image */}
-                <div style={{
-                  width: 70, height: 70, borderRadius: 10,
-                  overflow: 'hidden', flexShrink: 0, background: '#f4f4f4',
-                }}>
-                  <img src={product.img} alt={product.name}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </div>
-
-                {/* Product info */}
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 70 }}>
-                  <div>
-                    <p style={{ margin: '0 0 2px', ...T_CAP1NM, color: DARK_TEXT, ...NUM_VARIANT }}>
-                      {productName}
-                    </p>
-                    <p style={{ margin: 0, ...T_CAP1R, color: TEXT_SECONDARY }}>
-                      Size · M
-                    </p>
+              <div style={{ display: 'flex', flexDirection: 'column', padding: '12px 16px 12px 12px' }}>
+                {cartItems.map((ci, idx) => (
+                  <div key={ci.productId}>
+                    {idx > 0 && <div style={{ padding: '12px 0 12px 86px' }}><div style={{ height: 0.5, background: DIVIDER_COLOR }} /></div>}
+                  <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+                    <div style={{
+                      width: 70, height: 70, borderRadius: 10,
+                      overflow: 'hidden', flexShrink: 0, background: '#f4f4f4',
+                    }}>
+                      <img src={ci.product.img} alt={ci.product.name}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 70 }}>
+                      <div>
+                        <p style={{ margin: '0 0 2px', ...T_CAP1NM, color: DARK_TEXT, ...NUM_VARIANT }}>
+                          {toTitleCase(ci.product.name)}
+                        </p>
+                        <p style={{ margin: 0, ...T_CAP1R, color: TEXT_SECONDARY }}>
+                          Size · M
+                        </p>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                        <span style={{ ...T_B2NB, color: DARK_TEXT }}>{ci.qty} item{ci.qty > 1 ? 's' : ''}</span>
+                        <span style={{ ...T_B2NB, color: DARK_TEXT, ...NUM_VARIANT }}>{fmtRs(ci.product.price * ci.qty)}</span>
+                      </div>
+                    </div>
                   </div>
-                  {/* Bottom row: 1 item + price on same line */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                    <span style={{ ...T_B2NB, color: DARK_TEXT }}>1 item</span>
-                    <span style={{ ...T_B2NB, color: DARK_TEXT, ...NUM_VARIANT }}>{fmtRs(product.price)}</span>
                   </div>
-                </div>
+                ))}
               </div>
             </Card>
           )}
@@ -364,7 +366,7 @@ export default function YangoCheckoutScreen({ goTo, goBack, selectedProductId, c
               paddingTop: 12, paddingBottom: 4,
             }}>
               {[
-                { label: 'Item',                 val: fmtRs(product.price) },
+                { label: cartItems.length > 1 ? `Items (${cartItems.reduce((s, c) => s + c.qty, 0)})` : 'Item', val: fmtRs(productsTotal) },
                 { label: 'Delivery',             val: fmtRs(shipping) },
                 { label: 'Pay in parts service', val: fmtRs(pnpFee) },
               ].map(row => (

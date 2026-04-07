@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { NavProps } from '../App'
 import { OutfittersLogo, PRODUCTS, OUT_BLACK, OUT_WHITE, OUT_BORDER, OUT_GRAY, OUT_BG, OUT_FONT, CHECKOUT_BLUE } from './merchant-shared'
+import { BuyNowModal } from './BuyNowModal'
 
 type PayMethod = 'cod' | 'card' | 'baadmay' | 'yango'
 type ShipMethod = 'flat' | 'free'
@@ -14,10 +15,15 @@ const FOCUS_CSS = `
   .co-input:focus { border-color: ${ACCENT} !important; box-shadow: 0 0 0 1px ${ACCENT} !important; }
 `
 
-export default function CheckoutScreen({ goTo, goBack, selectedProductId, cartCount }: NavProps) {
-  const product = PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0]
-  const qty = cartCount > 0 ? cartCount : 1
-  const itemTotal = product.price * qty
+export default function CheckoutScreen({ goTo, goBack, selectedProductId, cartCount, cart }: NavProps) {
+  const cartItems = cart.length > 0
+    ? cart.map(ci => ({ ...ci, product: PRODUCTS.find(p => p.id === ci.productId)! })).filter(ci => ci.product)
+    : [{ productId: selectedProductId, qty: cartCount > 0 ? cartCount : 1, product: PRODUCTS.find(p => p.id === selectedProductId) ?? PRODUCTS[0] }]
+  const itemTotal = cartItems.reduce((sum, ci) => sum + ci.product.price * ci.qty, 0)
+  const totalQty = cartItems.reduce((sum, ci) => sum + ci.qty, 0)
+  // For backward compat with order summary display — show first item
+  const product = cartItems[0]?.product ?? PRODUCTS[0]
+  const qty = totalQty
 
   const [payMethod, setPayMethod] = useState<PayMethod>('cod')
   const [shipMethod, setShipMethod] = useState<ShipMethod>('flat')
@@ -26,6 +32,7 @@ export default function CheckoutScreen({ goTo, goBack, selectedProductId, cartCo
   const [saveInfo, setSaveInfo] = useState(false)
   const [city, setCity] = useState('LAHORE')
   const [billingSame, setBillingSame] = useState(true)
+  const [showYangoModal, setShowYangoModal] = useState(false)
 
   const shipCost = shipMethod === 'flat' ? 250 : 1
   const total = itemTotal + shipCost
@@ -33,8 +40,7 @@ export default function CheckoutScreen({ goTo, goBack, selectedProductId, cartCo
   const fmtPrice = (n: number) => `Rs.${n.toLocaleString('en-PK')}`
 
   const handleComplete = () => {
-    if (payMethod === 'yango') goTo('yango-checkout')
-    else goTo('bnpl-auth')
+    if (payMethod === 'yango') setShowYangoModal(true)
   }
 
   const inputBase: React.CSSProperties = {
@@ -269,6 +275,9 @@ export default function CheckoutScreen({ goTo, goBack, selectedProductId, cartCo
           </div>
         </div>
       </div>
+      {showYangoModal && (
+        <BuyNowModal price={itemTotal} onClose={() => setShowYangoModal(false)} onSplit={() => { setShowYangoModal(false); goTo('bnpl-auth') }} />
+      )}
     </div>
   )
 }
