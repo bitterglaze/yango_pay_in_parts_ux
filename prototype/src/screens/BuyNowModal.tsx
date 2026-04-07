@@ -109,7 +109,7 @@ export function BuyNowModal({
             <p style={{ margin: 0, fontFamily: FONT_FAMILY, fontSize: 26, fontWeight: 500, lineHeight: '28px', letterSpacing: -0.5, color: 'rgba(0,0,0,0.86)' }}>
               Shop now, pay later with{' '}
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, verticalAlign: 'middle' }}>
-                <img src="/checkout/PacmanIcon.png" alt="" style={{ width: 24, height: 24 }} />
+                <img src="/checkout/Split.png" alt="" style={{ width: 24, height: 24 }} />
                 <span style={{ fontFamily: FONT_FAMILY, fontSize: 26, fontWeight: 500, color: '#2C9E56' }}>Pay in parts</span>
               </span>
             </p>

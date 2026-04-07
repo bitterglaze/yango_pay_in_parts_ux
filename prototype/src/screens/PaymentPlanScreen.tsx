@@ -13,7 +13,7 @@ import {
 import SelectPaymentScreen from './SelectPaymentScreen'
 
 // Local public assets
-const ASSET_SPLIT_ICON = '/checkout/Watermelon.png'
+const ASSET_SPLIT_ICON = '/checkout/Split.png'
 const ASSET_RECT_MASK  = 'https://www.figma.com/api/mcp/asset/d44285ac-8cdf-42e7-8aa0-ed5118ee266e'
 const ASSET_METHOD_JAZZCASH  = '/checkout/Method-JazzCash.png'
 const ASSET_METHOD_EASYPAISA = '/checkout/Method-Easypaisa.png'

@@ -4,7 +4,7 @@ import { TEXT_PRIMARY, YANGO_RED } from './shared'
 import { BACKGROUND, SECONDARY_BG, TEXT_INVERTED, RADIUS_LG, FONT_SIZE_BASE, FONT_SIZE_LG, FONT_SIZE_XL } from './yango-tokens'
 
 // Local public assets — work in all environments including GitHub Pages
-const ASSET_SPLIT_ICON = '/checkout/Watermelon.png'
+const ASSET_SPLIT_ICON = '/checkout/Split.png'
 const ASSET_EASYPAISA  = '/checkout/Method-Easypaisa.png'
 const ASSET_JAZZCASH   = '/checkout/Method-JazzCash.png'
 

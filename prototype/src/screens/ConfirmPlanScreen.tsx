@@ -3,7 +3,7 @@ import { YangoHeader, SafeAreaBottom, TEXT_PRIMARY, TEXT_SECONDARY, FILL_DEFAULT
 import { BACKGROUND, OTHER_BORDER, TEXT_INVERTED, RADIUS_LG, RADIUS_XL, GREEN_100, SHADOW_MEDIUM, FONT_SIZE_BASE, FONT_SIZE_XL } from './yango-tokens'
 
 // Local public assets (work in all environments)
-const ASSET_SPLIT_ICON = '/checkout/Watermelon.png'
+const ASSET_SPLIT_ICON = '/checkout/Split.png'
 const ASSET_RECT_MASK  = 'https://www.figma.com/api/mcp/asset/d44285ac-8cdf-42e7-8aa0-ed5118ee266e'
 
 const ASSET_METHOD_JAZZCASH   = '/checkout/Method-JazzCash.png'
