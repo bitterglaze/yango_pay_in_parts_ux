@@ -33,11 +33,17 @@ export default function BNPLAuthScreen({ goTo, goBack, selectedProductId, checko
         }}>
           {fmtRs(displayPrice)}
         </div>
-        <div style={{
-          fontSize: FONT_SIZE_BASE, color: TEXT_SECONDARY, marginTop: 4, lineHeight: '18px',
-          ...NUM_VARIANT,
-        }}>
+        <div
+          onClick={() => goTo('order-breakdown')}
+          style={{
+            fontSize: FONT_SIZE_BASE, color: TEXT_SECONDARY, marginTop: 4, lineHeight: '18px',
+            display: 'inline-flex', alignItems: 'center', gap: 2,
+            cursor: 'pointer',
+            ...NUM_VARIANT,
+          }}
+        >
           Outfitters
+          <img src="/checkout/merchant-chevron.svg" alt="" style={{ width: 12, height: 14, display: 'block' }} />
         </div>
       </div>
 

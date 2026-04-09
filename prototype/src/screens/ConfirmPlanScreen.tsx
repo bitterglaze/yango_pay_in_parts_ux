@@ -56,8 +56,17 @@ export default function ConfirmPlanScreen({ goTo, goBack, selectedProductId, sel
         <div style={{ fontSize: 32, fontWeight: 500, letterSpacing: -0.5, lineHeight: '34px', color: TEXT_PRIMARY, ...NUM_VARIANT }}>
           {fmtRs(CART_TOTAL)}
         </div>
-        <div style={{ fontSize: FONT_SIZE_BASE, color: TEXT_SECONDARY, marginTop: 4, lineHeight: '18px', ...NUM_VARIANT }}>
+        <div
+          onClick={() => goTo('order-breakdown')}
+          style={{
+            fontSize: FONT_SIZE_BASE, color: TEXT_SECONDARY, marginTop: 4, lineHeight: '18px',
+            display: 'inline-flex', alignItems: 'center', gap: 2,
+            cursor: 'pointer',
+            ...NUM_VARIANT,
+          }}
+        >
           Outfitters
+          <img src="/checkout/merchant-chevron.svg" alt="" style={{ width: 12, height: 14, display: 'block' }} />
         </div>
       </div>
 

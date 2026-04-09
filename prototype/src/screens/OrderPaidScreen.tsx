@@ -1,5 +1,5 @@
 import type { NavProps } from '../App'
-import { SafeAreaBottom, TEXT_PRIMARY, FILL_DEFAULT, YANGO_RED, YangoLogoSVG } from './shared'
+import { SafeAreaBottom, TEXT_PRIMARY, TEXT_SECONDARY, FILL_DEFAULT, YANGO_RED, YangoLogoSVG } from './shared'
 import { BACKGROUND, TEXT_INVERTED, RADIUS_LG, RADIUS_XL, SECONDARY_BG, SHADOW_MEDIUM, FONT_SIZE_BASE, FONT_SIZE_LG, FONT_SIZE_XL, FONT_FAMILY } from './yango-tokens'
 import { PRODUCTS } from './merchant-shared'
 
@@ -43,11 +43,11 @@ export default function OrderPaidScreen({ goTo, selectedProductId, selectedPayme
   const perPart = Math.round(GRAND_TOTAL / 4)
   const today = new Date()
 
-  const chartSlots = [
-    { label: 'today',             amount: fmtRs(perPart), isPrimary: true  },
-    { label: addDays(today, 14),  amount: fmtRs(perPart), isPrimary: false },
-    { label: addDays(today, 28),  amount: fmtRs(perPart), isPrimary: false },
-    { label: addDays(today, 42),  amount: fmtRs(perPart), isPrimary: false },
+  const chartSlots: Array<{ label: string; amount: string; state: 'paid' | 'next' | 'future' }> = [
+    { label: 'today',             amount: fmtRs(perPart), state: 'paid'   },
+    { label: addDays(today, 14),  amount: fmtRs(perPart), state: 'next'   },
+    { label: addDays(today, 28),  amount: fmtRs(perPart), state: 'future' },
+    { label: addDays(today, 42),  amount: fmtRs(perPart), state: 'future' },
   ]
 
   const isJazzCash = !selectedPaymentMethod || selectedPaymentMethod === 'jazzcash'
@@ -141,7 +141,7 @@ export default function OrderPaidScreen({ goTo, selectedProductId, selectedPayme
             {/* Top row: text + icon */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
               {/* Text block */}
-              <div onClick={() => window.open('https://apps.apple.com/us/app/yango-taxi-and-delivery/id1437157286?l=ru', '_blank')} style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2, cursor: 'pointer' }}>
+              <div onClick={() => window.open('https://apps.apple.com/pk/app/yango-taxi-and-delivery/id1437157286', '_blank')} style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2, cursor: 'pointer' }}>
                 {/* Title — must fit on one line */}
                 <div style={{
                   fontSize: FONT_SIZE_LG, fontWeight: 500, lineHeight: '20px',
@@ -166,33 +166,41 @@ export default function OrderPaidScreen({ goTo, selectedProductId, selectedPayme
 
             {/* Payment chart — 4 segments */}
             <div style={{ display: 'flex', gap: 6, alignItems: 'flex-start', width: '100%' }}>
-              {chartSlots.map((slot, i) => (
-                <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 3 }}>
-                  {/* Segment bar */}
-                  <div style={{ paddingTop: 3, paddingBottom: 3 }}>
-                    <div style={{
-                      height: 4, borderRadius: slot.isPrimary ? 16 : 2,
-                      background: slot.isPrimary ? '#56C776' : '#e1e3e8',
-                    }} />
-                  </div>
-                  {/* Date + amount */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                    <div style={{
-                      fontSize: 13, lineHeight: '16px',
-                      color: slot.isPrimary ? TEXT_PRIMARY : 'rgba(0,0,0,0.5)',
-                      ...NUM_VARIANT,
-                    }}>
-                      {slot.label}
+              {chartSlots.map((slot, i) => {
+                const barBg =
+                  slot.state === 'paid'   ? '#C7F2D2' :
+                  slot.state === 'next'   ? '#56C776' :
+                                            '#e1e3e8'
+                const barRadius = slot.state === 'future' ? 2 : 16
+                const textColor = slot.state === 'next' ? TEXT_PRIMARY : TEXT_SECONDARY
+                return (
+                  <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 3 }}>
+                    {/* Segment bar */}
+                    <div style={{ paddingTop: 3, paddingBottom: 3 }}>
+                      <div style={{
+                        height: 4, borderRadius: barRadius,
+                        background: barBg,
+                      }} />
                     </div>
-                    <div style={{
-                      fontSize: 14, fontWeight: 500, lineHeight: '18px',
-                      color: TEXT_PRIMARY, whiteSpace: 'nowrap', ...NUM_VARIANT,
-                    }}>
-                      {slot.amount}
+                    {/* Date + amount */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                      <div style={{
+                        fontSize: 13, lineHeight: '16px',
+                        color: textColor,
+                        ...NUM_VARIANT,
+                      }}>
+                        {slot.label}
+                      </div>
+                      <div style={{
+                        fontSize: 14, fontWeight: 500, lineHeight: '18px',
+                        color: textColor, whiteSpace: 'nowrap', ...NUM_VARIANT,
+                      }}>
+                        {slot.amount}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
 
@@ -300,7 +308,7 @@ export default function OrderPaidScreen({ goTo, selectedProductId, selectedPayme
       }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <button
-            onClick={() => goTo('merchant')}
+            onClick={() => window.open('https://apps.apple.com/pk/app/yango-taxi-and-delivery/id1437157286', '_blank')}
             style={{
               width: '100%', height: 56,
               background: YANGO_RED, color: TEXT_INVERTED,
@@ -309,10 +317,10 @@ export default function OrderPaidScreen({ goTo, selectedProductId, selectedPayme
               lineHeight: '20px', fontFamily: FONT_FAMILY, ...NUM_VARIANT,
             }}
           >
-            Order details
+            Open Yango
           </button>
           <button
-            onClick={() => window.open('https://apps.apple.com/us/app/yango-taxi-and-delivery/id1437157286?l=ru', '_blank')}
+            onClick={() => goTo('merchant')}
             style={{
               width: '100%', height: 56,
               background: SECONDARY_BG, color: TEXT_PRIMARY,
@@ -321,7 +329,7 @@ export default function OrderPaidScreen({ goTo, selectedProductId, selectedPayme
               lineHeight: '20px', fontFamily: FONT_FAMILY, ...NUM_VARIANT,
             }}
           >
-            Open Yango
+            Order details
           </button>
         </div>
       </div>

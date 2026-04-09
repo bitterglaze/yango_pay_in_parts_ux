@@ -253,7 +253,7 @@ export function BuyNowModal({
             border: 'none', borderRadius: 14,
             fontFamily: FONT_FAMILY, fontSize: 18, fontWeight: 500, lineHeight: '20px', cursor: 'pointer',
           }}>
-            Pay in parts
+            Try it out
           </button>
         </div>
       </div>

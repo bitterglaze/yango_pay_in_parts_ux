@@ -12,6 +12,7 @@ import SelectPaymentScreen from './screens/SelectPaymentScreen'
 import ConfirmPlanScreen from './screens/ConfirmPlanScreen'
 import ProcessingScreen from './screens/ProcessingScreen'
 import OrderPaidScreen from './screens/OrderPaidScreen'
+import OrderBreakdownScreen from './screens/OrderBreakdownScreen'
 import MerchantScreen from './screens/MerchantScreen'
 import './index.css'
 
@@ -30,6 +31,7 @@ export type ScreenId =
   | 'confirm-plan'
   | 'processing'
   | 'order-paid'
+  | 'order-breakdown'
   | 'merchant'
 
 const SCREEN_ORDER: ScreenId[] = [
@@ -47,6 +49,7 @@ const SCREEN_ORDER: ScreenId[] = [
   'confirm-plan',
   'processing',
   'order-paid',
+  'order-breakdown',
   'merchant',
 ]
 
@@ -203,6 +206,7 @@ export default function App() {
       case 'confirm-plan': return <ConfirmPlanScreen {...nav} />
       case 'processing': return <ProcessingScreen {...nav} />
       case 'order-paid': return <OrderPaidScreen {...nav} />
+      case 'order-breakdown': return <OrderBreakdownScreen {...nav} />
       case 'merchant': return <MerchantScreen {...nav} />
     }
   }

@@ -80,7 +80,7 @@ export default function HomeScreen({ goTo, goToProduct, addToCart, cartCount }: 
   const filteredProducts = tabProducts.filter(p =>
     keywords.some(kw => p.name.toUpperCase().includes(kw))
   )
-  const featuredProducts = (filteredProducts.length > 0 ? filteredProducts : tabProducts).slice(0, 4)
+  const featuredProducts = filteredProducts.length > 0 ? filteredProducts : tabProducts
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: OUT_WHITE, overflow: 'hidden', fontFamily: OUT_FONT }}>
@@ -186,49 +186,29 @@ export default function HomeScreen({ goTo, goToProduct, addToCart, cartCount }: 
                     </svg>
                   </div>
                 </div>
-                <div style={{ padding: '6px 4px 10px', fontFamily: OUT_FONT }}>
+                <div style={{ padding: '6px 4px 15px', fontFamily: OUT_FONT }}>
                   {/* Name: 11px, SemiBold — visually prominent */}
                   <div style={{ fontSize: 11, fontWeight: 600, color: '#000000', lineHeight: 1.3, marginBottom: 0 }}>{p.name}</div>
                   {/* Fit: 8px, #202020, margin-top 3px */}
                   <div style={{ fontSize: 8, color: '#202020', letterSpacing: '0.03em', marginTop: 3, marginBottom: 3 }}>{p.fit}</div>
                   {/* Price: 11px, bold, #121212 */}
                   <div style={{ fontSize: 11, fontWeight: 700, color: '#121212', marginBottom: 3 }}>{formatPrice(p.price)}</div>
-                  {/* BNPL badges — Figma 959:463181 */}
+                  {/* BNPL badges — Pay only Rs.X now */}
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                    {/* Baadmay: purple pill with price + "with Baadmay" */}
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <div style={{ background: '#690ff5', borderRadius: 3, padding: 3, display: 'flex', alignItems: 'center' }}>
-                        <span style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.98)', lineHeight: '10px', whiteSpace: 'nowrap', fontFamily: OUT_FONT, fontVariantNumeric: 'lining-nums proportional-nums' }}>
-                          {bnplBaadmay(p.price)}
-                        </span>
-                      </div>
-                      <span style={{ fontSize: 8, fontWeight: 400, color: '#202020', paddingLeft: 4, lineHeight: '10px', whiteSpace: 'nowrap', fontFamily: OUT_FONT, textTransform: 'uppercase' as const, letterSpacing: '0.03em' }}>
-                        with Baadmay
+                    {/* Baadmay */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+                      <img src="/checkout/baadmay-icon.svg" alt="" style={{ width: 12, height: 12, display: 'block', flexShrink: 0 }} />
+                      <span style={{ fontSize: 8, fontWeight: 400, color: '#202020', lineHeight: '10px', whiteSpace: 'nowrap', fontFamily: OUT_FONT, textTransform: 'uppercase' as const, letterSpacing: '0.03em', fontVariantNumeric: 'lining-nums proportional-nums' }}>
+                        Pay only <span style={{ color: '#690ff5', fontWeight: 700 }}>{bnplBaadmay(p.price)}</span> now
                       </span>
                     </div>
-                    {/* Yango: pill badge with pacman + price */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                      <div style={{
-                        display: 'flex', alignItems: 'center', height: 16,
-                        background: '#FF0000',
-                        borderRadius: '9px 3px 3px 9px',
-                        overflow: 'hidden',
-                        paddingLeft: 3,
-                      }}>
-                        <img src="/checkout/YangoBadgeIcon.svg" alt="" style={{ width: 10, height: 10, display: 'block', flexShrink: 0 }} />
-                        <span style={{ fontSize: 10, fontWeight: 700, color: '#fff', lineHeight: '10px', whiteSpace: 'nowrap', padding: '0 4px 0 2px', fontFamily: OUT_FONT, fontVariantNumeric: 'lining-nums proportional-nums' }}>
-                          {bnplYango(p.price)}
-                        </span>
-                      </div>
-                      <span style={{ fontSize: 8, fontWeight: 400, color: '#202020', lineHeight: '10px', whiteSpace: 'nowrap', fontFamily: OUT_FONT, textTransform: 'uppercase' as const, letterSpacing: '0.03em' }}>
-                        with Yango
+                    {/* Yango */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+                      <img src="/checkout/Yango-logo.svg" alt="" style={{ width: 24.86, height: 12, display: 'block', flexShrink: 0 }} />
+                      <span style={{ fontSize: 8, fontWeight: 400, color: '#202020', lineHeight: '10px', whiteSpace: 'nowrap', fontFamily: OUT_FONT, textTransform: 'uppercase' as const, letterSpacing: '0.03em', fontVariantNumeric: 'lining-nums proportional-nums' }}>
+                        Pay only <span style={{ color: '#029154', fontWeight: 700 }}>{bnplYango(p.price)}</span> now
                       </span>
                     </div>
-                  </div>
-                  <div style={{ display: 'flex', gap: 4, marginTop: 5 }}>
-                    {p.colors.map((c, i) => (
-                      <div key={i} style={{ width: 12, height: 12, borderRadius: '50%', background: c, border: i === 0 ? `1.5px solid ${OUT_BLACK}` : `1px solid ${OUT_BORDER}` }} />
-                    ))}
                   </div>
                 </div>
               </div>

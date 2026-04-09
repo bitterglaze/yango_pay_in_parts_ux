@@ -75,11 +75,20 @@ export default function PaymentPlanScreen({ goTo, goBack, selectedProductId, sel
             color: TEXT_PRIMARY, margin: 0, textAlign: 'center', whiteSpace: 'nowrap',
             ...NUM_VARIANT,
           }}>{fmtRs(CART_TOTAL)}</p>
-          <p style={{
-            fontSize: FONT_SIZE_BASE, fontWeight: 400,
-            lineHeight: '18px', color: TEXT_SECONDARY,
-            margin: 0, textAlign: 'center', ...NUM_VARIANT,
-          }}>Outfitters</p>
+          <p
+            onClick={() => goTo('order-breakdown')}
+            style={{
+              fontSize: FONT_SIZE_BASE, fontWeight: 400,
+              lineHeight: '18px', color: TEXT_SECONDARY,
+              margin: 0, textAlign: 'center',
+              display: 'inline-flex', alignItems: 'center', gap: 2,
+              cursor: 'pointer',
+              ...NUM_VARIANT,
+            }}
+          >
+            Outfitters
+            <img src="/checkout/merchant-chevron.svg" alt="" style={{ width: 12, height: 14, display: 'block' }} />
+          </p>
         </div>
       </div>
 
