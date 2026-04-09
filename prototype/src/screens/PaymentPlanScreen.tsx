@@ -304,6 +304,10 @@ export default function PaymentPlanScreen({ goTo, goBack, selectedProductId, sel
             setCart={() => {}}
             removeFromCart={() => {}}
             updateCartQty={() => {}}
+            plpFilter={{ tab: 'MEN', subcategory: null }}
+            goToCategory={() => {}}
+            homeTab={'MEN'}
+            setHomeTab={() => {}}
             onCloseModal={() => setShowModal(false)}
             onConfirmModal={(method) => {
               setPaymentMethod(method)
