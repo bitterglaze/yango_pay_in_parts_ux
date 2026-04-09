@@ -1,22 +1,36 @@
 import { useState } from 'react'
 import type { NavProps } from '../App'
-import { OutfittersHeader, CategoryTabs, PRODUCTS, formatPrice, bnplYango, bnplBaadmay, OUT_BLACK, OUT_WHITE, OUT_BORDER, OUT_GRAY, OUT_BG, OUT_FONT } from './merchant-shared'
+import { OutfittersHeader, CategoryTabs, PRODUCTS, filterBySubcategory, formatSubcategoryLabel, formatPrice, bnplYango, bnplBaadmay, OUT_BLACK, OUT_WHITE, OUT_BORDER, OUT_GRAY, OUT_BG, OUT_FONT } from './merchant-shared'
+import type { Category, Subcategory } from './merchant-shared'
 
-export default function PLPScreen({ goTo, goBack, goToProduct, cartCount }: NavProps) {
-  const [activeTab, setActiveTab] = useState<'MEN' | 'WOMEN' | 'JUNIORS'>('MEN')
+const TAB_LABEL: Record<Category, string> = {
+  MEN: 'Men',
+  WOMEN: 'Women',
+  JUNIORS: 'Juniors',
+}
 
-  const products = PRODUCTS.filter(p => p.category === activeTab)
+export default function PLPScreen({ goTo, goBack, goToProduct, cartCount, plpFilter }: NavProps) {
+  const [activeTab, setActiveTab] = useState<Category>(plpFilter.tab)
+  const [subcategory, setSubcategory] = useState<Subcategory | null>(plpFilter.subcategory)
 
-  const categoryLabel: Record<string, string> = {
-    MEN: 'Men / T-Shirts & Polos',
-    WOMEN: 'Women / T-Shirts',
-    JUNIORS: 'Juniors / Girls 6–14Y',
+  const handleTabChange = (tab: Category) => {
+    setActiveTab(tab)
+    setSubcategory(null) // reset subcategory when switching tabs
   }
+
+  const products = filterBySubcategory(
+    PRODUCTS.filter(p => p.category === activeTab),
+    subcategory,
+  )
+
+  const breadcrumb = subcategory
+    ? `${TAB_LABEL[activeTab]} / ${formatSubcategoryLabel(subcategory)}`
+    : `${TAB_LABEL[activeTab]} / All`
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: OUT_WHITE, overflow: 'hidden', fontFamily: OUT_FONT }}>
       <OutfittersHeader onBack={goBack} onCart={() => goTo('cart')} cartCount={cartCount} />
-      <CategoryTabs active={activeTab} onChange={setActiveTab} />
+      <CategoryTabs active={activeTab} onChange={handleTabChange} />
 
       {/* Breadcrumb + Filter bar */}
       <div style={{
@@ -28,7 +42,7 @@ export default function PLPScreen({ goTo, goBack, goToProduct, cartCount }: NavP
         flexShrink: 0,
       }}>
         <span style={{ fontSize: 11, color: OUT_GRAY, letterSpacing: '0.02em' }}>
-          {categoryLabel[activeTab]}
+          {breadcrumb}
         </span>
         <div style={{ display: 'flex', gap: 6 }}>
           <div style={{

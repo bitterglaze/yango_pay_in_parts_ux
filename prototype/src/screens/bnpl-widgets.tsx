@@ -59,7 +59,7 @@ export function YangoWidget({ price, size = 'sm', onBuy }: { price: number; size
         color: 'rgba(255,255,255,0.98)', fontSize: 13, fontWeight: 500, lineHeight: '14px',
         cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0, fontFamily: FONT_FAMILY,
       }}>
-        Buy in parts
+        Buy with Yango
       </button>
     </div>
   )

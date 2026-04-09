@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
 import type { NavProps } from '../App'
-import { OutfittersHeader, CategoryTabs, PRODUCTS, formatPrice, bnplYango, bnplBaadmay, OUT_BLACK, OUT_WHITE, OUT_BORDER, OUT_BG, OUT_FONT } from './merchant-shared'
+import { OutfittersHeader, CategoryTabs, PRODUCTS, filterBySubcategory, formatPrice, bnplYango, bnplBaadmay, OUT_BLACK, OUT_WHITE, OUT_BORDER, OUT_BG, OUT_FONT } from './merchant-shared'
+import type { Category, Subcategory } from './merchant-shared'
 
 // Per-tab hero images (3 per tab for auto-slider) + category strip
-type Tab = 'MEN' | 'WOMEN' | 'JUNIORS'
-type FocusCategory = 'T-Shirts & Polos' | 'Denim' | 'Trousers'
+type FocusCategory = Extract<Subcategory, 'T-SHIRTS' | 'DENIM' | 'TROUSERS' | 'BOTTOMS'>
 
-const TAB_CONTENT: Record<Tab, {
+const TAB_CONTENT: Record<Category, {
   heroes: { img: string; label: string }[]
-  categories: { img: string; label: string }[]
+  categories: { img: string; label: string; subcategory: Subcategory }[]
 }> = {
   MEN: {
     heroes: [
@@ -17,9 +17,9 @@ const TAB_CONTENT: Record<Tab, {
       { img: 'https://outfitters.com.pk/cdn/shop/files/F1745106006_3.jpg?v=1773904640', label: 'SPRING COLLECTION' },
     ],
     categories: [
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F1748106801_2.jpg?v=1773914778', label: 'T-SHIRTS' },
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F1730106628_2.jpg?v=1773904544', label: 'POLOS' },
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F1745106006_3.jpg?v=1773904640', label: 'SHIRTS' },
+      { img: 'https://outfitters.com.pk/cdn/shop/files/F1748106801_2.jpg?v=1773914778', label: 'T-SHIRTS', subcategory: 'T-SHIRTS' },
+      { img: 'https://outfitters.com.pk/cdn/shop/files/F1730106628_2.jpg?v=1773904544', label: 'POLOS', subcategory: 'POLOS' },
+      { img: 'https://outfitters.com.pk/cdn/shop/files/F0696108801_2.jpg?v=1773724183', label: 'BOTTOMS', subcategory: 'BOTTOMS' },
     ],
   },
   WOMEN: {
@@ -29,9 +29,9 @@ const TAB_CONTENT: Record<Tab, {
       { img: 'https://outfitters.com.pk/cdn/shop/files/F1376206911_7.jpg?v=1773205261', label: 'SPRING COLLECTION' },
     ],
     categories: [
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F1392206998.jpg?v=1773655084', label: 'T-SHIRTS' },
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F1267206306_4.jpg?v=1772084487', label: 'TOPS' },
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F1376206911_7.jpg?v=1773205261', label: 'DENIM' },
+      { img: 'https://outfitters.com.pk/cdn/shop/files/F1392206998.jpg?v=1773655084', label: 'T-SHIRTS', subcategory: 'T-SHIRTS' },
+      { img: 'https://outfitters.com.pk/cdn/shop/files/F1341206901_6_7116c54e-6bec-42e1-9682-913e919db1ef.jpg?v=1773130129', label: 'TOPS', subcategory: 'TOPS' },
+      { img: 'https://cdn.shopify.com/s/files/1/2290/7887/files/F0708209630LOWER.jpg?v=1775020746', label: 'DENIM', subcategory: 'DENIM' },
     ],
   },
   JUNIORS: {
@@ -41,23 +41,24 @@ const TAB_CONTENT: Record<Tab, {
       { img: 'https://outfitters.com.pk/cdn/shop/files/F0256609625_3_copy.jpg?v=1771216046', label: 'SPRING COLLECTION' },
     ],
     categories: [
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F0246605413SUIT_3_cc92f779-ebc6-473f-b2de-271d6d3b38b9.jpg?v=1772523313', label: 'CO-ORD SETS' },
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F0256609625_3_copy.jpg?v=1771216046', label: 'JEANS' },
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F0510608001LOWER_3.jpg?v=1772098856', label: 'TROUSERS' },
+      { img: 'https://outfitters.com.pk/cdn/shop/files/F0246605413SUIT_3_cc92f779-ebc6-473f-b2de-271d6d3b38b9.jpg?v=1772523313', label: 'CO-ORD SETS', subcategory: 'CO-ORD SETS' },
+      { img: 'https://outfitters.com.pk/cdn/shop/files/F0256609625_3_copy.jpg?v=1771216046', label: 'JEANS', subcategory: 'JEANS' },
+      { img: 'https://outfitters.com.pk/cdn/shop/files/F0510608001LOWER_3.jpg?v=1772098856', label: 'TROUSERS', subcategory: 'TROUSERS' },
     ],
   },
 }
 
-// Map focus categories to product name keywords — works across all tabs
-const FOCUS_KEYWORDS: Record<FocusCategory, string[]> = {
-  'T-Shirts & Polos': ['T-SHIRT', 'POLO', 'TANK TOP', 'CO-ORD'],
-  'Denim': ['JEANS', 'DENIM'],
-  'Trousers': ['TROUSERS', 'CARGO TROUSERS', 'MARINE FIT TROUSERS'],
-}
+// Categories in Focus — labels shown vs the subcategory key used for filtering
+const FOCUS_OPTIONS: { label: string; subcategory: FocusCategory }[] = [
+  { label: 'T-Shirts', subcategory: 'T-SHIRTS' },
+  { label: 'Denim', subcategory: 'DENIM' },
+  { label: 'Trousers', subcategory: 'TROUSERS' },
+]
 
-export default function HomeScreen({ goTo, goToProduct, addToCart, cartCount }: NavProps) {
-  const [activeTab, setActiveTab] = useState<Tab>('MEN')
-  const [focusCategory, setFocusCategory] = useState<FocusCategory>('T-Shirts & Polos')
+export default function HomeScreen({ goTo, goToProduct, addToCart, cartCount, goToCategory, homeTab, setHomeTab }: NavProps) {
+  const activeTab = homeTab
+  const setActiveTab = setHomeTab
+  const [focusCategory, setFocusCategory] = useState<FocusCategory>('T-SHIRTS')
 
   // #8 — Hero auto-slider
   const [heroIdx, setHeroIdx] = useState(0)
@@ -76,16 +77,13 @@ export default function HomeScreen({ goTo, goToProduct, addToCart, cartCount }: 
 
   // #7 — Category filtering for all tabs
   const tabProducts = PRODUCTS.filter(p => p.category === activeTab)
-  const keywords = FOCUS_KEYWORDS[focusCategory]
-  const filteredProducts = tabProducts.filter(p =>
-    keywords.some(kw => p.name.toUpperCase().includes(kw))
-  )
+  const filteredProducts = filterBySubcategory(tabProducts, focusCategory)
   const featuredProducts = filteredProducts.length > 0 ? filteredProducts : tabProducts
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: OUT_WHITE, overflow: 'hidden', fontFamily: OUT_FONT }}>
       <OutfittersHeader onCart={() => goTo('cart')} cartCount={cartCount} />
-      <CategoryTabs active={activeTab} onChange={(tab) => { setActiveTab(tab); setFocusCategory('T-Shirts & Polos') }} />
+      <CategoryTabs active={activeTab} onChange={(tab) => { setActiveTab(tab); setFocusCategory('T-SHIRTS') }} />
 
       <div style={{ flex: 1, overflowY: 'auto' }}>
 
@@ -127,8 +125,8 @@ export default function HomeScreen({ goTo, goToProduct, addToCart, cartCount }: 
 
         {/* Category strip */}
         <div style={{ display: 'grid', gridTemplateColumns: `repeat(${categories.length}, 1fr)`, gap: 2, padding: '2px 0', flexShrink: 0 }}>
-          {categories.map(({ img, label }) => (
-            <div key={label} onClick={() => goTo('plp')} style={{ position: 'relative', cursor: 'pointer' }}>
+          {categories.map(({ img, label, subcategory }) => (
+            <div key={label} onClick={() => goToCategory(activeTab, subcategory)} style={{ position: 'relative', cursor: 'pointer' }}>
               <img src={img} alt={label} style={{ width: '100%', aspectRatio: '3/4', objectFit: 'cover', display: 'block' }} />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%)' }} />
               <div style={{ position: 'absolute', bottom: 10, left: 0, right: 0, textAlign: 'center', fontSize: 10, fontWeight: 700, color: OUT_WHITE, letterSpacing: '0.1em' }}>
@@ -144,19 +142,19 @@ export default function HomeScreen({ goTo, goToProduct, addToCart, cartCount }: 
             CATEGORIES IN FOCUS
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 16 }}>
-            {(['T-Shirts & Polos', 'Denim', 'Trousers'] as FocusCategory[]).map(cat => (
-              <div key={cat} onClick={() => setFocusCategory(cat)} style={{
+            {FOCUS_OPTIONS.map(({ label, subcategory }) => (
+              <div key={subcategory} onClick={() => setFocusCategory(subcategory)} style={{
                 fontSize: 15,
-                fontWeight: focusCategory === cat ? 700 : 400,
+                fontWeight: focusCategory === subcategory ? 700 : 400,
                 color: OUT_BLACK,
-                textDecoration: focusCategory === cat ? 'underline' : 'none',
+                textDecoration: focusCategory === subcategory ? 'underline' : 'none',
                 cursor: 'pointer',
               }}>
-                {cat}
+                {label}
               </div>
             ))}
           </div>
-          <button onClick={() => goTo('plp')} style={{
+          <button onClick={() => goToCategory(activeTab, focusCategory)} style={{
             background: OUT_BLACK, color: OUT_WHITE, border: 'none', borderRadius: 4,
             padding: '10px 24px', fontSize: 12, fontWeight: 700, letterSpacing: '0.1em',
             cursor: 'pointer', marginBottom: 20,

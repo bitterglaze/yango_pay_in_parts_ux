@@ -14,6 +14,7 @@ import ProcessingScreen from './screens/ProcessingScreen'
 import OrderPaidScreen from './screens/OrderPaidScreen'
 import OrderBreakdownScreen from './screens/OrderBreakdownScreen'
 import MerchantScreen from './screens/MerchantScreen'
+import type { Category, Subcategory } from './screens/merchant-shared'
 import './index.css'
 
 export type ScreenId =
@@ -80,6 +81,11 @@ export interface CartItem {
   qty: number
 }
 
+export interface PlpFilter {
+  tab: Category
+  subcategory: Subcategory | null
+}
+
 export interface NavProps {
   goTo: (screen: ScreenId) => void
   goBack: () => void
@@ -97,6 +103,10 @@ export interface NavProps {
   setCart: React.Dispatch<React.SetStateAction<CartItem[]>>
   removeFromCart: (productId: number) => void
   updateCartQty: (productId: number, qty: number) => void
+  plpFilter: PlpFilter
+  goToCategory: (tab: Category, subcategory: Subcategory | null) => void
+  homeTab: Category
+  setHomeTab: (tab: Category) => void
 }
 
 export default function App() {
@@ -107,6 +117,8 @@ export default function App() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('')
   const [cart, setCart] = useState<CartItem[]>([])
   const [checkoutData, setCheckoutData] = useState<CheckoutData>(DEFAULT_CHECKOUT)
+  const [plpFilter, setPlpFilter] = useState<PlpFilter>({ tab: 'MEN', subcategory: null })
+  const [homeTab, setHomeTab] = useState<Category>('MEN')
   const history = useRef<ScreenId[]>(['home'])
 
   const cartCount = cart.reduce((sum, item) => sum + item.qty, 0)
@@ -187,8 +199,14 @@ export default function App() {
 
   const setCartCount = (_n: number) => {} // legacy, no-op
 
+  const goToCategory = (tab: Category, subcategory: Subcategory | null) => {
+    setHomeTab(tab) // remember active home tab so back button restores it
+    setPlpFilter({ tab, subcategory })
+    goTo('plp')
+  }
+
   const setPaymentMethod = (m: string) => setSelectedPaymentMethod(m)
-  const nav: NavProps = { goTo, goBack, currentScreen, selectedProductId, goToProduct, addToCart, selectedPaymentMethod, setPaymentMethod, cartCount, setCartCount, checkoutData, setCheckoutData, cart, setCart, removeFromCart, updateCartQty }
+  const nav: NavProps = { goTo, goBack, currentScreen, selectedProductId, goToProduct, addToCart, selectedPaymentMethod, setPaymentMethod, cartCount, setCartCount, checkoutData, setCheckoutData, cart, setCart, removeFromCart, updateCartQty, plpFilter, goToCategory, homeTab, setHomeTab }
 
   const screenNode = (id: ScreenId) => {
     switch (id) {

@@ -605,6 +605,63 @@ export const PRODUCTS: Product[] = [
   },
 ]
 
+// ─── Subcategory filtering ─────────────────────────────────────────
+
+export type Subcategory =
+  | 'T-SHIRTS'
+  | 'POLOS'
+  | 'TOPS'
+  | 'BOTTOMS'
+  | 'DENIM'
+  | 'JEANS'
+  | 'TROUSERS'
+  | 'CO-ORD SETS'
+
+interface SubcategoryFilter {
+  include: string[]
+  exclude?: string[]
+}
+
+const SUBCATEGORY_FILTERS: Record<Subcategory, SubcategoryFilter> = {
+  // T-shirts: anything with "T-SHIRT" in the name, but exclude polo shirts and tank tops
+  'T-SHIRTS': { include: ['T-SHIRT'], exclude: ['POLO', 'TANK'] },
+  // Polos: only polo shirts
+  'POLOS': { include: ['POLO'] },
+  // Tops: tank tops and cropped tops (women)
+  'TOPS': { include: ['TANK TOP', 'TOP'] },
+  // Bottoms: any pants (trousers, jeans, shorts, skirts, etc.) — used for MEN
+  'BOTTOMS': { include: ['TROUSERS', 'JEANS', 'DENIM', 'PANTS', 'SHORTS', 'SKIRT', 'JOGGER', 'LEGGING'] },
+  // Denim: jeans and denim
+  'DENIM': { include: ['DENIM', 'JEANS'] },
+  // Jeans: only jeans
+  'JEANS': { include: ['JEANS'] },
+  // Trousers: only trousers (excluding jeans/denim)
+  'TROUSERS': { include: ['TROUSERS'], exclude: ['JEANS', 'DENIM'] },
+  // Co-ord sets
+  'CO-ORD SETS': { include: ['CO-ORD'] },
+}
+
+export function filterBySubcategory(products: Product[], subcategory: Subcategory | null): Product[] {
+  if (!subcategory) return products
+  const config = SUBCATEGORY_FILTERS[subcategory]
+  if (!config) return products
+  return products.filter(p => {
+    const name = p.name.toUpperCase()
+    if (!config.include.some(kw => name.includes(kw))) return false
+    if (config.exclude?.some(kw => name.includes(kw))) return false
+    return true
+  })
+}
+
+export function formatSubcategoryLabel(sub: Subcategory): string {
+  // Title-case for breadcrumb display
+  return sub
+    .toLowerCase()
+    .split(' ')
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ')
+}
+
 export function formatPrice(pkr: number): string {
   return `Rs.${pkr.toLocaleString('en-PK')}`
 }
