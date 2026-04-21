@@ -56,8 +56,8 @@ export default function PDPScreen({ goTo, goBack, goToProduct, selectedProductId
             {product.name}
           </div>
 
-          {/* #28 — Price: bold, NO italic, reduced gap to baadmay (1px margin) */}
-          <div style={{ fontSize: 11, fontWeight: 700, color: OUT_BLACK, marginBottom: 1, fontFamily: OUT_FONT, fontStyle: 'normal' }}>
+          {/* #28 — Price: bold, NO italic */}
+          <div style={{ fontSize: 11, fontWeight: 700, color: OUT_BLACK, marginBottom: 4, fontFamily: OUT_FONT, fontStyle: 'normal' }}>
             {formatPrice(product.price)}
           </div>
 
@@ -65,18 +65,18 @@ export default function PDPScreen({ goTo, goBack, goToProduct, selectedProductId
           <BaadmayWidget price={product.price} size="sm" />
 
           {/* #29+30 — Yango widget immediately after Baadmay, ABOVE Add to Cart */}
-          <div style={{ marginTop: 8 }}>
+          <div style={{ margin: '10px 0 14px' }}>
             <YangoWidget price={product.price} size="sm" onBuy={() => setShowBuyModal(true)} />
           </div>
 
           {/* Fit info */}
-          <div style={{ fontSize: 9, color: OUT_BLACK, padding: '6px 0 6px', fontFamily: OUT_FONT }}>
+          <div style={{ fontSize: 9, color: OUT_BLACK, padding: '0 0 8px', fontFamily: OUT_FONT }}>
             {toTitleCase(fitLabel)} - {toTitleCase(catLabel)} - {selectedColorName}
           </div>
 
           {/* Color selector — only if multiple */}
           {hasMultipleColors && (
-            <div style={{ display: 'flex', gap: 10, padding: '0 0 10px' }}>
+            <div style={{ display: 'flex', gap: 10, padding: '0 0 20px' }}>
               {product.colors.map((c, i) => (
                 <div key={i} onClick={() => setSelectedColorIdx(i)} style={{
                   width: 28, height: 28, borderRadius: 2, background: c,
