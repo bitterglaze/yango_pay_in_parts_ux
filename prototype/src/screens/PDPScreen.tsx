@@ -57,7 +57,7 @@ export default function PDPScreen({ goTo, goBack, goToProduct, selectedProductId
           </div>
 
           {/* #28 — Price: bold, NO italic */}
-          <div style={{ fontSize: 11, fontWeight: 700, color: OUT_BLACK, marginBottom: 4, fontFamily: OUT_FONT, fontStyle: 'normal' }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: OUT_BLACK, marginBottom: 2, fontFamily: OUT_FONT, fontStyle: 'normal' }}>
             {formatPrice(product.price)}
           </div>
 
@@ -65,7 +65,7 @@ export default function PDPScreen({ goTo, goBack, goToProduct, selectedProductId
           <BaadmayWidget price={product.price} size="sm" />
 
           {/* #29+30 — Yango widget immediately after Baadmay, ABOVE Add to Cart */}
-          <div style={{ margin: '10px 0 14px' }}>
+          <div style={{ margin: '8px 0 12px' }}>
             <YangoWidget price={product.price} size="sm" onBuy={() => setShowBuyModal(true)} />
           </div>
 
