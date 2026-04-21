@@ -1,6 +1,5 @@
 // Reusable BNPL widgets — used in PDP and Cart
-import { bnplBaadmay, bnplYango, OUT_BLACK, OUT_WHITE, OUT_BORDER, OUT_FONT } from './merchant-shared'
-import { YANGO_RED } from './shared'
+import { bnplBaadmay, bnplYango, OUT_BLACK, OUT_FONT } from './merchant-shared'
 import { FONT_FAMILY } from './yango-tokens'
 
 // ── Baadmay Widget ───────────────────────────────────────────────────────────
@@ -25,42 +24,45 @@ export function BaadmayWidget({ price, size = 'sm' }: { price: number; size?: 's
 }
 
 // ── Yango Pay in Parts Widget ────────────────────────────────────────────────
-export function YangoWidget({ price, size = 'sm', onBuy }: { price: number; size?: 'sm' | 'lg'; onBuy: () => void }) {
+export function YangoWidget({ price, onBuy }: { price: number; size?: 'sm' | 'lg'; onBuy: () => void }) {
   const perPart = bnplYango(price)
   const NUM: React.CSSProperties = { fontVariantNumeric: 'lining-nums proportional-nums' }
 
-  const isSm = size === 'sm'
-  const titleSize = isSm ? 12 : 14
-  const titleLH = isSm ? '16px' : '18px'
-  const subSize = isSm ? 11 : 11
-  const subLH = isSm ? '14px' : '14px'
-  const logoSize = isSm ? 40 : 40
-
   return (
-    <div style={{
-      border: `1px solid ${OUT_BORDER}`, borderRadius: 4,
-      padding: `12px 16px 12px 12px`,
-      background: OUT_WHITE,
-      display: 'flex', alignItems: 'center', gap: 8,
-    }}>
-      <div style={{ width: logoSize, height: logoSize, flexShrink: 0 }}>
-        <img src="/checkout/YangoPnP-logo.svg" alt="Yango Pay in Parts" style={{ width: logoSize, height: logoSize, display: 'block' }} />
+    <button
+      type="button"
+      onClick={onBuy}
+      style={{
+        width: '100%',
+        border: 'none',
+        borderRadius: 12,
+        padding: '12px 20px 12px 12px',
+        background: 'rgba(27,36,45,0.05)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 6,
+        cursor: 'pointer',
+        textAlign: 'left',
+        fontFamily: FONT_FAMILY,
+      }}
+    >
+      <div style={{ width: 40, height: 40, flexShrink: 0 }}>
+        <img src="/checkout/YangoPnP-logo.svg" alt="Yango Pay in Parts" style={{ width: 40, height: 40, display: 'block' }} />
       </div>
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 1, fontFamily: FONT_FAMILY }}>
-        <div style={{ fontSize: titleSize, fontWeight: 700, lineHeight: titleLH, color: 'rgba(0,0,0,0.86)', ...NUM }}>
-          {perPart} × 4 payments
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 }}>
+        <div style={{ fontSize: 14, fontWeight: 500, lineHeight: '16px', color: 'rgba(0,0,0,0.86)', ...NUM }}>
+          Pay in 4 parts of {perPart}
         </div>
-        <div style={{ fontSize: subSize, fontWeight: 400, lineHeight: subLH, color: 'rgba(0,0,0,0.5)', ...NUM }}>
-          Every 2 weeks
+        <div style={{ fontSize: 13, fontWeight: 400, lineHeight: '16px', color: 'rgba(0,0,0,0.86)', ...NUM }}>
+          Service fee applies
         </div>
       </div>
-      <button onClick={onBuy} style={{
-        background: YANGO_RED, border: 'none', borderRadius: 8, height: 32, padding: '0 12px',
-        color: 'rgba(255,255,255,0.98)', fontSize: 13, fontWeight: 500, lineHeight: '14px',
-        cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0, fontFamily: FONT_FAMILY,
-      }}>
-        Buy with Yango
-      </button>
-    </div>
+      <img
+        src="/checkout/ChevronRight.svg"
+        alt=""
+        aria-hidden="true"
+        style={{ width: 24, height: 24, display: 'block', flexShrink: 0 }}
+      />
+    </button>
   )
 }
