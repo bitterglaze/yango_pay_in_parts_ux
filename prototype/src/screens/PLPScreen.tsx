@@ -104,8 +104,8 @@ export default function PLPScreen({ goTo, goBack, goToProduct, cartCount, plpFil
                   {/* Yango */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
                     <img src="/checkout/Yango-logo.svg" alt="" style={{ width: 24.86, height: 12, display: 'block', flexShrink: 0 }} />
-                    <span style={{ fontSize: 8, fontWeight: 400, color: '#202020', lineHeight: '10px', whiteSpace: 'nowrap', fontFamily: OUT_FONT, textTransform: 'uppercase' as const, letterSpacing: '0.03em', fontVariantNumeric: 'lining-nums proportional-nums' }}>
-                      Pay only <span style={{ color: '#029154', fontWeight: 700 }}>{bnplYango(p.price)}</span> now
+                    <span style={{ fontSize: 8, fontWeight: 400, color: 'rgba(9,9,9,0.98)', lineHeight: '10px', whiteSpace: 'nowrap', fontFamily: OUT_FONT, textTransform: 'uppercase' as const, letterSpacing: '0.03em', fontVariantNumeric: 'lining-nums proportional-nums' }}>
+                      <span style={{ fontWeight: 700 }}>{bnplYango(p.price)}</span> × 4 payments
                     </span>
                   </div>
                 </div>
