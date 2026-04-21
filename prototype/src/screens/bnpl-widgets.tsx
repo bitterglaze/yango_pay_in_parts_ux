@@ -34,10 +34,10 @@ export function YangoWidget({ price, onBuy }: { price: number; size?: 'sm' | 'lg
       onClick={onBuy}
       style={{
         width: '100%',
-        border: 'none',
+        border: '1px solid rgba(0,0,0,0.08)',
         borderRadius: 12,
         padding: '12px 20px 12px 12px',
-        background: 'rgba(27,36,45,0.05)',
+        background: 'transparent',
         display: 'flex',
         alignItems: 'center',
         gap: 6,
@@ -57,12 +57,9 @@ export function YangoWidget({ price, onBuy }: { price: number; size?: 'sm' | 'lg
           Service fee applies
         </div>
       </div>
-      <img
-        src="/checkout/ChevronRight.svg"
-        alt=""
-        aria-hidden="true"
-        style={{ width: 24, height: 24, display: 'block', flexShrink: 0 }}
-      />
+      <svg width="24" height="24" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0, display: 'block' }} aria-hidden="true">
+        <path d="M5.52876 3.8047C5.26841 3.54435 5.26841 3.12224 5.52876 2.86189C5.78911 2.60154 6.21122 2.60154 6.47157 2.86189L10.9025 7.29285C11.2931 7.68338 11.2931 8.31654 10.9025 8.70707L6.47157 13.138C6.21122 13.3984 5.78911 13.3984 5.52876 13.138C5.26841 12.8777 5.26841 12.4556 5.52876 12.1952L9.72402 7.99996L5.52876 3.8047Z" fill="black"/>
+      </svg>
     </button>
   )
 }
