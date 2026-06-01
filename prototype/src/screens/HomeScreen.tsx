@@ -12,38 +12,38 @@ const TAB_CONTENT: Record<Category, {
 }> = {
   MEN: {
     heroes: [
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F1726106901_2_copy.jpg?v=1774500764', label: 'NEW ARRIVALS' },
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F1748106801_2.jpg?v=1773914778', label: 'FRESH DROPS' },
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F1745106006_3.jpg?v=1773904640', label: 'SPRING COLLECTION' },
+      { img: 'https://cdn.shopify.com/s/files/1/2290/7887/files/F1726106901_2_copy.jpg?v=1774500764', label: 'NEW ARRIVALS' },
+      { img: 'https://cdn.shopify.com/s/files/1/2290/7887/files/F1748106801_2.jpg?v=1773914778', label: 'FRESH DROPS' },
+      { img: 'https://cdn.shopify.com/s/files/1/2290/7887/files/F1745106006_3.jpg?v=1773904640', label: 'SPRING COLLECTION' },
     ],
     categories: [
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F1748106801_2.jpg?v=1773914778', label: 'T-SHIRTS', subcategory: 'T-SHIRTS' },
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F1730106628_2.jpg?v=1773904544', label: 'POLOS', subcategory: 'POLOS' },
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F0696108801_2.jpg?v=1773724183', label: 'BOTTOMS', subcategory: 'BOTTOMS' },
+      { img: 'https://cdn.shopify.com/s/files/1/2290/7887/files/F1748106801_2.jpg?v=1773914778', label: 'T-SHIRTS', subcategory: 'T-SHIRTS' },
+      { img: 'https://cdn.shopify.com/s/files/1/2290/7887/files/F1730106628_2.jpg?v=1773904544', label: 'POLOS', subcategory: 'POLOS' },
+      { img: 'https://cdn.shopify.com/s/files/1/2290/7887/files/F0696108801_2.jpg?v=1773724183', label: 'BOTTOMS', subcategory: 'BOTTOMS' },
     ],
   },
   WOMEN: {
     heroes: [
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F1608206001_3_copy.jpg?v=1774441087', label: 'NEW ARRIVALS' },
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F1392206998.jpg?v=1773655084', label: 'FRESH DROPS' },
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F1376206911_7.jpg?v=1773205261', label: 'SPRING COLLECTION' },
+      { img: 'https://cdn.shopify.com/s/files/1/2290/7887/files/F1608206001_3_copy.jpg?v=1774441087', label: 'NEW ARRIVALS' },
+      { img: 'https://cdn.shopify.com/s/files/1/2290/7887/files/F1392206998.jpg?v=1773655084', label: 'FRESH DROPS' },
+      { img: 'https://cdn.shopify.com/s/files/1/2290/7887/files/F1376206911_7.jpg?v=1773205261', label: 'SPRING COLLECTION' },
     ],
     categories: [
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F1392206998.jpg?v=1773655084', label: 'T-SHIRTS', subcategory: 'T-SHIRTS' },
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F1341206901_6_7116c54e-6bec-42e1-9682-913e919db1ef.jpg?v=1773130129', label: 'TOPS', subcategory: 'TOPS' },
+      { img: 'https://cdn.shopify.com/s/files/1/2290/7887/files/F1392206998.jpg?v=1773655084', label: 'T-SHIRTS', subcategory: 'T-SHIRTS' },
+      { img: 'https://cdn.shopify.com/s/files/1/2290/7887/files/F1341206901_6_7116c54e-6bec-42e1-9682-913e919db1ef.jpg?v=1773130129', label: 'TOPS', subcategory: 'TOPS' },
       { img: 'https://cdn.shopify.com/s/files/1/2290/7887/files/F0708209630LOWER.jpg?v=1775020746', label: 'DENIM', subcategory: 'DENIM' },
     ],
   },
   JUNIORS: {
     heroes: [
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F0243605901SUIT_6.jpg?v=1770879638', label: 'NEW ARRIVALS' },
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F0246605413SUIT_3_cc92f779-ebc6-473f-b2de-271d6d3b38b9.jpg?v=1772523313', label: 'FRESH DROPS' },
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F0256609625_3_copy.jpg?v=1771216046', label: 'SPRING COLLECTION' },
+      { img: 'https://cdn.shopify.com/s/files/1/2290/7887/files/F0243605901SUIT_6.jpg?v=1770879638', label: 'NEW ARRIVALS' },
+      { img: 'https://cdn.shopify.com/s/files/1/2290/7887/files/F0246605413SUIT_3_cc92f779-ebc6-473f-b2de-271d6d3b38b9.jpg?v=1772523313', label: 'FRESH DROPS' },
+      { img: 'https://cdn.shopify.com/s/files/1/2290/7887/files/F0256609625_3_copy.jpg?v=1771216046', label: 'SPRING COLLECTION' },
     ],
     categories: [
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F0246605413SUIT_3_cc92f779-ebc6-473f-b2de-271d6d3b38b9.jpg?v=1772523313', label: 'CO-ORD SETS', subcategory: 'CO-ORD SETS' },
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F0256609625_3_copy.jpg?v=1771216046', label: 'JEANS', subcategory: 'JEANS' },
-      { img: 'https://outfitters.com.pk/cdn/shop/files/F0510608001LOWER_3.jpg?v=1772098856', label: 'TROUSERS', subcategory: 'TROUSERS' },
+      { img: 'https://cdn.shopify.com/s/files/1/2290/7887/files/F0246605413SUIT_3_cc92f779-ebc6-473f-b2de-271d6d3b38b9.jpg?v=1772523313', label: 'CO-ORD SETS', subcategory: 'CO-ORD SETS' },
+      { img: 'https://cdn.shopify.com/s/files/1/2290/7887/files/F0256609625_3_copy.jpg?v=1771216046', label: 'JEANS', subcategory: 'JEANS' },
+      { img: 'https://cdn.shopify.com/s/files/1/2290/7887/files/F0510608001LOWER_3.jpg?v=1772098856', label: 'TROUSERS', subcategory: 'TROUSERS' },
     ],
   },
 }
